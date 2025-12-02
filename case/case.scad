@@ -237,14 +237,14 @@ module bottom_foam() {
 // Note: Changing tenting_angle requires adjusting tent_lowering.
 
 // ---- Tenting Parameters ----
-tenting_angle = 10;
-tent_base_thickness = 1;
+tenting_angle = 7;
+tent_base_thickness = 0;
 tent_support_base_thickness = 0.0001;
-tent_support_base_width = 2;
+tent_support_base_width = 10;
 tent_support_wall_thickness = 1.5;
-tent_support_wall_height = 6;
+tent_support_wall_height = 3;
 tent_clearance = 0.2;
-tent_lowering = 5.5;
+tent_lowering = 3.0;
 
 // Outline (uses main PCB outline layer) expanded by case wall_thickness
 module tent_case_outline() { offset(delta=0) import(file=DXF, layer=L_outer_shape); }
