@@ -20,10 +20,18 @@ A customizable, 3D-print-friendly case designed in OpenSCAD – fully parametric
 
 ---
 
-📦 **Download & Print**  
-under construction
 
 # Getting Started
+
+## Architecture Overview
+
+The OpenSCAD code in `case/case.scad` follows a lightweight, modular structure:
+
+- `extrude_layer(layer, z, h, delta)` is the primary helper; it pulls 2D contours from the `case/ferris_sweep_bling_mx.dxf` file (via the `import(..., layer=layer)` call) and turns them into 3D solids with optional offsets. Every major part—outer walls, switch plate, foam, decorations—starts from this DXF-driven extrusion, so keeping the DXF layers organized is critical.
+- Higher level modules such as `top_case`, `bottom_case`, and accessories assemble features through boolean operations around those shared extrusions, ensuring consistent geometry between parts.
+- The `build()` module is the entry point. It reads the `PART` variable (e.g., `"top_case"`, `"bottom_case"`, `"tent"`, or `"exploded"`) and conditionally renders the corresponding module. Setting `PART = "exploded"` produces a spaced stack to inspect clearances, while any other valid label renders just that component for export.
+
+This separation lets you tweak parameters, update DXF layers, or introduce new modules without touching the common helper routines.
 
 ## 🧭 Adjusting the USB Outlet
 
