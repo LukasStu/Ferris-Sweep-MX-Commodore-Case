@@ -27,6 +27,9 @@ keycaps_gap = 0.5;
 switch_protruction = 1;
 slider_total_height = lid_thickness + immersion_depth + kailh_sockets_thickness + 0.5;
 
+decoration_cutout_depth = 0.5;
+decoration_line_width = 1.0;
+
 // USB
 w_shell = 8.94;
 h_shell = 3.26;
@@ -165,18 +168,18 @@ module reset_switch_button() {
 }
 
 module top_plate_decor_cutout() {
-    extrude_layer(L_outer_shape_decor, z=total_height_top_case-0.5 , h=0.5, delta=1.0);  
+    extrude_layer(L_outer_shape_decor, z=total_height_top_case-decoration_cutout_depth, h=decoration_cutout_depth, delta=decoration_line_width);  
 }
 
 module top_plate_decor() {
     difference(){
-        extrude_layer(L_outer_shape_decor, z=total_height_top_case-0.5 , h=0.5, delta=0.0); 
+        extrude_layer(L_outer_shape_decor, z=total_height_top_case-decoration_cutout_depth , h=decoration_cutout_depth); 
         keycaps_cutout();
     }
 }
 
 module top_plate_decor_lines_cutout() {
-    extrude_layer(L_decor_lines, z=total_height_top_case-0.5 , h=0.5, delta=0);  
+    extrude_layer(L_decor_lines, z=total_height_top_case-decoration_cutout_depth , h=decoration_cutout_depth);  
 }
 
 // -----------------------------------------------------------------------------
