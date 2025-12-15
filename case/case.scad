@@ -168,12 +168,12 @@ module reset_switch_button() {
 }
 
 module top_plate_decor_cutout() {
-    extrude_layer(L_outer_shape_decor, z=total_height_top_case-decoration_cutout_depth, h=decoration_cutout_depth, delta=decoration_line_width);  
+    extrude_layer(L_outer_shape_decor, z=total_height_top_case-decoration_cutout_depth, h=decoration_cutout_depth);  
 }
 
 module top_plate_decor() {
     difference(){
-        extrude_layer(L_outer_shape_decor, z=total_height_top_case-decoration_cutout_depth , h=decoration_cutout_depth); 
+        extrude_layer(L_outer_shape_decor, z=total_height_top_case-decoration_cutout_depth , h=decoration_cutout_depth, delta=-decoration_line_width); 
         keycaps_cutout();
     }
 }
