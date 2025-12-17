@@ -58,7 +58,7 @@ reset_button_thick = 0.2;
 
 // Derived
 Z_LID_BASE = -lid_thickness;
-total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
+total_height_top_case = keycaps_cutout_height + seal_thickness + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
 EXPLODE = 10;
 
 // Single DXF file + layer names
