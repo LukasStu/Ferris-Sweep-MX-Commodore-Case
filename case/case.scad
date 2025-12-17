@@ -6,29 +6,33 @@ $fn =  10;
 
 // Dimensions & geometry
 // -------------------- Parameters --------------------
+// top case
 fillet_radius = 2.5;
 wall_thickness_outer = 5;
 wall_thickness_inner = 2;
-keycaps_cutout_height = 8.5;
-seal_thickness = 0.1;
 controller_wall_thickness = 1;
+keycaps_gap = 0.5;
+keycaps_cutout_height = 8.5;
+decoration_cutout_depth = 0.5;
+decoration_line_width = 1.0;
+
+// PCB + plate + foam stack
+seal_thickness = 0.1;
+kailh_sockets_thickness = 2;
+bottom_foam_thickness = 2;
+actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
 
 fr4_thickness = 1.6;
 switchplate_thickness = 3.3;
-kailh_sockets_thickness = 2;
-bottom_foam_thickness = 2;
 pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + 2 * fr4_thickness;
 
-actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
-
+// bottom case
 immersion_depth = 1;
 lid_thickness = 1.5;
-keycaps_gap = 0.5;
+
+// power switch slider
 switch_protruction = 1;
 slider_total_height = lid_thickness + immersion_depth + kailh_sockets_thickness + 0.5;
-
-decoration_cutout_depth = 0.5;
-decoration_line_width = 1.0;
 
 // USB
 w_shell = 8.94;
@@ -39,6 +43,23 @@ Z_USB = h_shell / 2 + immersion_depth + kailh_sockets_thickness + pcb_usb_distan
 usb_main_offset = [139.9, -76, Z_USB];
 usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
+
+// Screw positions & sizes
+screw_positions = [[140, -152], [29.5, -132], [30, -32], [152, -32], [153.5, -90]];
+case_screw_diameter = 2.7;
+case_screw_depth = 3.1;
+lid_screw_diameter = 2.5;
+
+// Clearances
+clear_pcb_mm = 0.3;
+clear_usb_mm = 0.5;
+clear_switch_mm = 0.2;
+reset_button_thick = 0.2;
+
+// Derived
+Z_LID_BASE = -lid_thickness;
+total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
+EXPLODE = 10;
 
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
@@ -58,24 +79,6 @@ L_pwr_overhang_cutout = "pwr_overhang_cutout";
 L_slider_label = "pwr_on_label";
 L_switches = "switches";
 L_switchplate = "switchplate_outline";
-
-// Screw positions & sizes
-screw_positions = [[140, -152], [29.5, -132], [30, -32], [152, -32], [153.5, -90]];
-case_screw_diameter = 2.7;
-case_screw_depth = 3.1;
-lid_screw_diameter = 2.5;
-
-// Clearances
-clear_pcb_mm = 0.3;
-clear_usb_mm = 0.5;
-clear_switch_mm = 0.2;
-reset_button_thick = 0.2;
-
-// Derived
-Z_LID_BASE = -lid_thickness;
-total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
-EXPLODE = 10;
-
 
 // Layout of the top case from top to bottom starting at Z=0 going positive:
 // -keycaps_cutout height
