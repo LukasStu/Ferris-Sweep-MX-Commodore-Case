@@ -254,7 +254,7 @@ module switchplate_foam() {
 module bottom_foam() {
   difference() {
     extrude_layer(L_switchplate, z=immersion_depth, h=bottom_foam_thickness, delta=-0.3);
-    extrude_layer(L_switchplate, z=immersion_depth, h=bottom_foam_thickness, delta=-3.3);
+    extrude_layer(L_switches, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
     extrude_layer(L_pwr_slider, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
     extrude_layer(L_switches, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
   }
