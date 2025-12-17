@@ -76,6 +76,24 @@ Z_LID_BASE = -lid_thickness;
 total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
 EXPLODE = 10;
 
+
+// Layout of the top case from top to bottom starting at Z=0 going positive:
+// -keycaps_cutout height
+// -seal
+// ---pcb stack end---
+// -switchplate (fr4)
+// -switchplate foam
+// -pcb (fr4)
+// ---pcb stack start--- 
+// -bottom foam
+// -immersion_depth
+
+
+// Layout of the bottom case from top to bottom starting at Z=0 going negative:
+// -immersion_depth
+// -lid_thickness
+
+
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
 // -----------------------------------------------------------------------------
