@@ -19,17 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install OpenSCAD 2025.12.09 (Linux)
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl -fsSL -o openscad.AppImage \
-            https://files.openscad.org/snapshots/OpenSCAD-2025.12.09.ai29883-x86_64.AppImage
-          chmod +x openscad.AppImage
-          sudo mv openscad.AppImage /usr/local/bin/openscad
-          openscad --version
-
+      - name: Install OpenSCAD 2025.12.09 (AppImage)
+              run: |
+                wget https://files.openscad.org/snapshots/OpenSCAD-2025.12.09-x86_64.AppImage
+                chmod +x OpenSCAD-2025.12.09-x86_64.AppImage
+                sudo mv OpenSCAD-2025.12.09-x86_64.AppImage /usr/local/bin/openscad
 
       - name: Render ${{ matrix.part }}
         run: |
