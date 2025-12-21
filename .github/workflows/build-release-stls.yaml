@@ -20,10 +20,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install OpenSCAD 2025.12.09 (AppImage)
-              run: |
-                wget https://files.openscad.org/snapshots/OpenSCAD-2025.12.09-x86_64.AppImage
-                chmod +x OpenSCAD-2025.12.09-x86_64.AppImage
-                sudo mv OpenSCAD-2025.12.09-x86_64.AppImage /usr/local/bin/openscad
+        run: |
+          wget https://files.openscad.org/snapshots/OpenSCAD-2025.12.09-x86_64.AppImage
+          chmod +x OpenSCAD-2025.12.09-x86_64.AppImage
+          sudo mv OpenSCAD-2025.12.09-x86_64.AppImage /usr/local/bin/openscad
 
       - name: Render ${{ matrix.part }}
         run: |
