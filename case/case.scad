@@ -210,6 +210,18 @@ module case_screw_holes() { drill_holes(screw_positions, case_screw_diameter, 0,
 // -------------------- Module: lid_screw_holes --------------------
 module lid_screw_holes() { drill_holes(screw_positions, lid_screw_diameter, Z_LID_BASE, lid_thickness); }
 
+module gasket_supports_cutout() {
+    extrude_layer(L_gasket_supports, h=total_height_top_case-keycaps_cutout_height, delta=0.1);
+}
+
+module upper_gasket_supports() {
+    extrude_layer(L_gasket_supports,h=5, z=immersion_depth + actual_bottom_foam_thickness + fr4_thickness + switchplate_thickness, delta=0.1);
+}
+
+module lower_gasket_supports() {
+    extrude_layer(L_gasket_supports, h=immersion_depth + actual_bottom_foam_thickness + fr4_thickness, delta=0.1);
+}
+
 // -----------------------------------------------------------------------------
 // ------------------------------ Assemblies -----------------------------------
 // -----------------------------------------------------------------------------
@@ -227,8 +239,10 @@ module top_case() {
     flat_usb_cutout();
     usb_c_cutout_position();
     pcb_holder();
+    gasket_supports_cutout();
   }
   top_plate_decor();
+  upper_gasket_supports();
 }
 
 // -------------------- Module: bottom_case --------------------
@@ -241,6 +255,7 @@ module bottom_case() {
     pwr_switch_slider_cutout(delta=clear_switch_mm);
     power_switch_overhang_cutout(delta=clear_switch_mm);
   }
+   lower_gasket_supports();
 }
 
 // -------------------- Module: switchplate foam --------------------
@@ -350,7 +365,7 @@ module tent() {
 // -----------------------------------------------------------------------------
 // ------------------------------ Build Select ---------------------------------
 // -----------------------------------------------------------------------------
-PART = "switch_plate_foam";
+PART = "exploded";
 
 // -------------------- Module: build --------------------
 module build() {
