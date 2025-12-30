@@ -2,7 +2,7 @@
 // --------------- Key Parameters, Fine-Tuning Here ---------------------------
 // -----------------------------------------------------------------------------
 
-$fn =  10;
+$fn =  100;
 
 // Dimensions & geometry
 // -------------------- Parameters --------------------
@@ -79,6 +79,7 @@ L_pwr_overhang_cutout = "pwr_overhang_cutout";
 L_slider_label = "pwr_on_label";
 L_switches = "switches";
 L_switchplate = "switchplate_outline";
+L_gasket_supports = "gasket_supports";
 
 // Layout of the top case from top to bottom starting at Z=0 going positive:
 // -keycaps_cutout height
@@ -244,9 +245,12 @@ module bottom_case() {
 
 // -------------------- Module: switchplate foam --------------------
 module switchplate_foam() {
-  difference() {
-    extrude_layer(L_switchplate, z=fr4_thickness, h=switchplate_thickness, delta=-0.3);
-    extrude_layer(L_switches, z=fr4_thickness, h=switchplate_thickness, delta=0.3);
+  union() {
+    extrude_layer(L_gasket_supports, z=fr4_thickness, h=switchplate_thickness);
+    difference() {
+      extrude_layer(L_switchplate, z=fr4_thickness, h=switchplate_thickness);
+      extrude_layer(L_switches, z=fr4_thickness, h=switchplate_thickness, delta=0.3);
+    }
   }
 }
 
@@ -346,7 +350,7 @@ module tent() {
 // -----------------------------------------------------------------------------
 // ------------------------------ Build Select ---------------------------------
 // -----------------------------------------------------------------------------
-PART = "exploded";
+PART = "switch_plate_foam";
 
 // -------------------- Module: build --------------------
 module build() {
