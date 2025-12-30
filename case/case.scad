@@ -26,6 +26,11 @@ fr4_thickness = 1.6;
 switchplate_thickness = 3.3;
 pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + 2 * fr4_thickness;
 
+// gasket
+gasket_thickness = 1;
+compression = 0.2;
+compressed_gasket_thickness = gasket_thickness * (1 - compression);
+
 // bottom case
 immersion_depth = 1;
 lid_thickness = 1.5;
@@ -214,12 +219,14 @@ module gasket_supports_cutout() {
     extrude_layer(L_gasket_supports, h=total_height_top_case-keycaps_cutout_height, delta=0.1);
 }
 
+// -------------------- Module: upper_gasket_supports --------------------
 module upper_gasket_supports() {
-    extrude_layer(L_gasket_supports,h=5, z=immersion_depth + actual_bottom_foam_thickness + fr4_thickness + switchplate_thickness, delta=0.1);
+    extrude_layer(L_gasket_supports, z=immersion_depth + bottom_foam_thickness + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + seal_thickness - compressed_gasket_thickness, delta = 0.2);
 }
 
+// -------------------- Module: lower_gasket_supports --------------------
 module lower_gasket_supports() {
-    extrude_layer(L_gasket_supports, h=immersion_depth + actual_bottom_foam_thickness + fr4_thickness, delta=0.1);
+    extrude_layer(L_gasket_supports, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness);
 }
 
 // -----------------------------------------------------------------------------
@@ -242,7 +249,10 @@ module top_case() {
     gasket_supports_cutout();
   }
   top_plate_decor();
-  upper_gasket_supports();
+  difference() {
+    upper_gasket_supports();
+    keycaps_cutout();
+  }
 }
 
 // -------------------- Module: bottom_case --------------------
@@ -260,13 +270,11 @@ module bottom_case() {
 
 // -------------------- Module: switchplate foam --------------------
 module switchplate_foam() {
-  union() {
-    extrude_layer(L_gasket_supports, z=fr4_thickness, h=switchplate_thickness);
+    extrude_layer(L_gasket_supports, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
     difference() {
-      extrude_layer(L_switchplate, z=fr4_thickness, h=switchplate_thickness);
-      extrude_layer(L_switches, z=fr4_thickness, h=switchplate_thickness, delta=0.3);
+      extrude_layer(L_switchplate, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
+      extrude_layer(L_switches, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness, delta=0.3);
     }
-  }
 }
 
 // -------------------- Module: bottom foam --------------------
