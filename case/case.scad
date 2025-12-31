@@ -131,6 +131,20 @@ module pcb_holder() {
     }
 }
 
+module gasket_supports_cutout() {
+    extrude_layer(L_gasket_supports, h=total_height_top_case-keycaps_cutout_height, delta=0.1);
+}
+
+// -------------------- Module: upper_gasket_supports --------------------
+module upper_gasket_supports() {
+    extrude_layer(L_gasket_supports, z=immersion_depth + bottom_foam_thickness + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + seal_thickness - compressed_gasket_thickness, delta = 0.2);
+}
+
+// -------------------- Module: lower_gasket_supports --------------------
+module lower_gasket_supports() {
+    extrude_layer(L_gasket_supports, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness);
+}
+
 // -------------------- Module: pcb_stack --------------------
 module pcb_stack() { extrude_layer(L_plate, h=actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness, delta=clear_pcb_mm); }
 
@@ -215,19 +229,6 @@ module case_screw_holes() { drill_holes(screw_positions, case_screw_diameter, 0,
 // -------------------- Module: lid_screw_holes --------------------
 module lid_screw_holes() { drill_holes(screw_positions, lid_screw_diameter, Z_LID_BASE, lid_thickness); }
 
-module gasket_supports_cutout() {
-    extrude_layer(L_gasket_supports, h=total_height_top_case-keycaps_cutout_height, delta=0.1);
-}
-
-// -------------------- Module: upper_gasket_supports --------------------
-module upper_gasket_supports() {
-    extrude_layer(L_gasket_supports, z=immersion_depth + bottom_foam_thickness + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + seal_thickness - compressed_gasket_thickness, delta = 0.2);
-}
-
-// -------------------- Module: lower_gasket_supports --------------------
-module lower_gasket_supports() {
-    extrude_layer(L_gasket_supports, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness);
-}
 
 // -----------------------------------------------------------------------------
 // ------------------------------ Assemblies -----------------------------------
