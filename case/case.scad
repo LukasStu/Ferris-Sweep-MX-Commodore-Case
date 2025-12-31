@@ -69,21 +69,21 @@ EXPLODE = 10;
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
 
-L_plate = "pcb_outline";
+L_pcb_outline = "pcb_outline";
 L_outer_shape = "outer_shape";
 L_outer_shape_decor = "outer_shape_decor";
 L_decor_lines = "decor_lines";
-L_cavity = "keycaps_outline";
-L_usb = "controller_cutout";
+L_keycaps_outline = "keycaps_outline";
+L_controller_cutout = "controller_cutout";
 L_reset = "reset";
-L_pwr = "pwr_lid_cutout";
-L_pwr_slider = "pwr_body";
-L_pwr_cutout = "pwr_knob_cutout";
-L_pwr_overhang = "pwr_body_overhang";
+L_pwr_lid_cutout = "pwr_lid_cutout";
+L_pwr_body = "pwr_body";
+L_pwr_knob_cutout = "pwr_knob_cutout";
+L_pwr_body_overhang = "pwr_body_overhang";
 L_pwr_overhang_cutout = "pwr_overhang_cutout";
-L_slider_label = "pwr_on_label";
+L_pwr_on_label = "pwr_on_label";
 L_switches = "switches";
-L_switchplate = "switchplate_outline";
+L_switchplate_outline = "switchplate_outline";
 L_gasket_supports = "gasket_supports";
 
 // Layout of the top case from top to bottom starting at Z=0 going positive:
@@ -127,7 +127,7 @@ module outer_case() {
 module pcb_holder() {
     difference() {
         extrude_layer(L_outer_shape, h=total_height_top_case-5, delta=-wall_thickness_outer);
-        extrude_layer(L_plate, h=total_height_top_case-5, delta=wall_thickness_inner);
+        extrude_layer(L_pcb_outline, h=total_height_top_case-5, delta=wall_thickness_inner);
     }
 }
 
@@ -146,22 +146,22 @@ module lower_gasket_supports() {
 }
 
 // -------------------- Module: pcb_stack --------------------
-module pcb_stack() { extrude_layer(L_plate, h=actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness, delta=clear_pcb_mm); }
+module pcb_stack() { extrude_layer(L_pcb_outline, h=actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness, delta=clear_pcb_mm); }
 
 // -------------------- Module: keycaps_cutout --------------------
-module keycaps_cutout() { extrude_layer(L_cavity, h=total_height_top_case, delta=2 * keycaps_gap); }
+module keycaps_cutout() { extrude_layer(L_keycaps_outline, h=total_height_top_case, delta=2 * keycaps_gap); }
 
 // -------------------- Module: flat_usb_cutout --------------------
-module flat_usb_cutout() { extrude_layer(L_usb, h=total_height_top_case - controller_wall_thickness, delta=clear_usb_mm); }
+module flat_usb_cutout() { extrude_layer(L_controller_cutout, h=total_height_top_case - controller_wall_thickness, delta=clear_usb_mm); }
 
 // -------------------- Module: lid --------------------
 module lid() {
   extrude_layer(L_outer_shape, z=Z_LID_BASE, h=lid_thickness, delta=0);
-  extrude_layer(L_plate, z=Z_LID_BASE + lid_thickness, h=immersion_depth);
+  extrude_layer(L_pcb_outline, z=Z_LID_BASE + lid_thickness, h=immersion_depth);
 }
 
 // -------------------- Module: pwr_switch_slider_cutout --------------------
-module pwr_switch_slider_cutout(delta = 0) { extrude_layer(L_pwr, z=Z_LID_BASE, h=lid_thickness + immersion_depth, delta=delta); }
+module pwr_switch_slider_cutout(delta = 0) { extrude_layer(L_pwr_lid_cutout, z=Z_LID_BASE, h=lid_thickness + immersion_depth, delta=delta); }
 
 // -------------------- Module: power_switch_overhang_cutout --------------------
 module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cutout, h=slider_total_height, delta=delta); }
@@ -169,11 +169,11 @@ module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cu
 // -------------------- Module: power_switch_slider --------------------
 module power_switch_slider() {
   difference() {
-    extrude_layer(L_pwr_slider, z=Z_LID_BASE - switch_protruction, h=slider_total_height + switch_protruction);
-    extrude_layer(L_pwr_cutout, z=Z_LID_BASE + immersion_depth + 0.5, h=slider_total_height - immersion_depth);
-    translate([0, 0, Z_LID_BASE - switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_slider_label);
+    extrude_layer(L_pwr_body, z=Z_LID_BASE - switch_protruction, h=slider_total_height + switch_protruction);
+    extrude_layer(L_pwr_knob_cutout, z=Z_LID_BASE + immersion_depth + 0.5, h=slider_total_height - immersion_depth);
+    translate([0, 0, Z_LID_BASE - switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_pwr_on_label);
   }
-  extrude_layer(L_pwr_overhang, h=immersion_depth);
+  extrude_layer(L_pwr_body_overhang, h=immersion_depth);
 }
 
 // -------------------- Module: reset_cutout --------------------
@@ -273,7 +273,7 @@ module bottom_case() {
 module switchplate_foam() {
     extrude_layer(L_gasket_supports, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
     difference() {
-      extrude_layer(L_switchplate, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
+      extrude_layer(L_switchplate_outline, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
       extrude_layer(L_switches, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness, delta=0.3);
     }
 }
@@ -281,9 +281,9 @@ module switchplate_foam() {
 // -------------------- Module: bottom foam --------------------
 module bottom_foam() {
   difference() {
-    extrude_layer(L_switchplate, z=immersion_depth, h=bottom_foam_thickness, delta=-0.3);
+    extrude_layer(L_switchplate_outline, z=immersion_depth, h=bottom_foam_thickness, delta=-0.3);
     extrude_layer(L_switches, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
-    extrude_layer(L_pwr_slider, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
+    extrude_layer(L_pwr_body, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
     extrude_layer(L_switches, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
   }
 }
