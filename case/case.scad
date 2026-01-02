@@ -37,14 +37,14 @@ lid_thickness = 1.5;
 
 // power switch slider
 switch_protruction = 1;
-slider_total_height = lid_thickness + immersion_depth + kailh_sockets_thickness + 0.5;
+slider_total_height = lid_thickness + immersion_depth + kailh_sockets_thickness + actual_bottom_foam_thickness + 0.5;
 
 // USB
 w_shell = 8.94;
 h_shell = 3.26;
 r_corner = 1.2;
 pcb_usb_distance = 9;
-Z_USB = h_shell / 2 + immersion_depth + kailh_sockets_thickness + pcb_usb_distance;
+Z_USB = h_shell / 2 + immersion_depth + kailh_sockets_thickness + actual_bottom_foam_thickness + pcb_usb_distance;
 usb_main_offset = [139.9, -76, Z_USB];
 usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
@@ -188,7 +188,7 @@ module reset_overhang_cutout(delta = 0) { extrude_layer(L_reset, h=immersion_dep
 // -------------------- Module: reset_switch_button --------------------
 module reset_switch_button() {
   extrude_layer(L_reset, z=Z_LID_BASE - 0.5, h=lid_thickness + 0.5);
-  extrude_layer(L_reset, h=immersion_depth + 0.5, delta=reset_button_thick);
+  extrude_layer(L_reset, h=immersion_depth + actual_bottom_foam_thickness + 0.5, delta=reset_button_thick);
 }
 
 // -------------------- Module: top_plate_decor_cutout --------------------
