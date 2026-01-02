@@ -18,7 +18,7 @@ decoration_cutout_depth = 0.5;
 decoration_line_width = 1.0;
 
 // PCB + plate + foam stack
-seal_thickness = 0.1;
+seal_thickness = 6;
 kailh_sockets_thickness = 2;
 bottom_foam_thickness = 3;
 actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
@@ -64,7 +64,7 @@ reset_button_thick = 0.2;
 
 // Derived
 Z_LID_BASE = -lid_thickness;
-total_height_top_case = keycaps_cutout_height + seal_thickness + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
+total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
 EXPLODE = 10;
 
 // Single DXF file + layer names
