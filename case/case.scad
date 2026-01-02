@@ -19,7 +19,7 @@ decoration_line_width = 1.0;
 // PCB + plate + foam stack
 seal_thickness = 0.1;
 kailh_sockets_thickness = 2;
-bottom_foam_thickness = 2;
+bottom_foam_thickness = 3;
 actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
 
 fr4_thickness = 1.6;
