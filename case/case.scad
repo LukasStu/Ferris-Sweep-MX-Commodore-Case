@@ -133,7 +133,7 @@ module pcb_holder() {
 }
 
 module gasket_supports_cutout() {
-    extrude_layer(L_gasket_supports, h=total_height_top_case-keycaps_cutout_height, delta=0.1);
+    extrude_layer(L_gasket_supports, h=total_height_top_case-keycaps_cutout_height, delta=0.3);
 }
 
 // -------------------- Module: upper_gasket_supports --------------------
