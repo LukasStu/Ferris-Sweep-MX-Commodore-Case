@@ -28,7 +28,7 @@ switchplate_thickness = 3.3;
 pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + 2 * fr4_thickness;
 
 // gasket
-gasket_thickness = 1;
+gasket_thickness = 2;
 compression = 0.2;
 compressed_gasket_thickness = gasket_thickness * (1 - compression);
 
