@@ -142,7 +142,10 @@ module upper_gasket_supports() {
 
 // -------------------- Module: lower_gasket_supports --------------------
 module lower_gasket_supports() {
+  difference() {
     extrude_layer(L_gasket_supports, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness);
+    extrude_layer(L_pcb_outline, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness, delta=0.5);
+    }
 }
 
 // -------------------- Module: pcb_stack --------------------
