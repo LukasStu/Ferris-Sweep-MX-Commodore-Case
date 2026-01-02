@@ -10,7 +10,7 @@ $fn =  100;
 fillet_radius = 2.5;
 top_case_thickness = 3;
 wall_thickness_outer = 5;
-wall_thickness_inner = 2;
+wall_thickness_inner = 3;
 controller_wall_thickness = 1;
 keycaps_gap = 0.5;
 keycaps_cutout_height = 8.5;
@@ -57,7 +57,7 @@ case_screw_depth = 3.1;
 lid_screw_diameter = 2.5;
 
 // Clearances
-clear_pcb_mm = 0.3;
+clear_pcb_mm = 1.0;
 clear_usb_mm = 0.5;
 clear_switch_mm = 0.2;
 reset_button_thick = 0.2;
