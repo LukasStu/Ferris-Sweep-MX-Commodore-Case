@@ -8,6 +8,7 @@ $fn =  100;
 // -------------------- Parameters --------------------
 // top case
 fillet_radius = 2.5;
+top_case_thickness = 3;
 wall_thickness_outer = 5;
 wall_thickness_inner = 2;
 controller_wall_thickness = 1;
@@ -126,8 +127,8 @@ module outer_case() {
 // -------------------- Module: pcb_holder --------------------
 module pcb_holder() {
     difference() {
-        extrude_layer(L_outer_shape, h=total_height_top_case-5, delta=-wall_thickness_outer);
-        extrude_layer(L_pcb_outline, h=total_height_top_case-5, delta=wall_thickness_inner);
+        extrude_layer(L_outer_shape, h=total_height_top_case-top_case_thickness, delta=-wall_thickness_outer);
+        extrude_layer(L_pcb_outline, h=total_height_top_case-top_case_thickness, delta=wall_thickness_inner);
     }
 }
 
