@@ -57,7 +57,7 @@ case_screw_depth = 3.1;
 lid_screw_diameter = 2.5;
 
 // Clearances
-clear_pcb_mm = 1.0;
+clear_pcb_mm = 0.5;
 clear_usb_mm = 0.5;
 clear_switch_mm = 0.2;
 reset_button_thick = 0.2;
