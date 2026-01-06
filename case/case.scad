@@ -13,7 +13,7 @@ wall_thickness_outer = 5;
 wall_thickness_inner = 3;
 controller_wall_thickness = 1;
 keycaps_gap = 0.5;
-keycaps_cutout_height = 8.5;
+keycaps_cutout_height = 7.5;
 decoration_cutout_depth = 0.5;
 decoration_line_width = 1.0;
 
@@ -29,7 +29,7 @@ pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + 2 * fr
 
 // gasket
 gasket_thickness = 2;
-compression = 0.2;
+compression = 0.6;
 compressed_gasket_thickness = gasket_thickness * (1 - compression);
 
 // bottom case
