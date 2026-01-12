@@ -51,10 +51,10 @@ usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
 
 // Screw positions & sizes
-screw_positions = [[140, -152], [88, -133], [29.5, -132], [28.5, -82], [30, -32], [152, -32], [90, -31], [153.5, -90]];
 case_screw_diameter = 2.7;
 case_screw_depth = 3.1;
 lid_screw_diameter = 2.5;
+screw_marker_diameter = 1;
 
 // Clearances
 clear_pcb_mm = 1.0;
@@ -87,6 +87,7 @@ L_pwr_on_label = "pwr_on_label";
 L_switches = "switches";
 L_switchplate_outline = "switchplate_outline";
 L_gasket_supports = "gasket_supports";
+L_screw_markers = "screw_markers";
 
 // Layout of the top case from top to bottom starting at Z=0 going positive:
 // -keycaps_cutout height
@@ -112,8 +113,11 @@ L_gasket_supports = "gasket_supports";
 // -------------------- Module: extrude_layer --------------------
 module extrude_layer(layer, z = 0, h = 1, delta = 0) { translate([0, 0, z]) linear_extrude(height=h) offset(delta=delta) import(file=DXF, layer=layer); }
 
-// -------------------- Module: drill_holes --------------------
-module drill_holes(positions, d, z, h) { for (p = positions) translate([p[0], p[1], z]) cylinder(d=d, h=h); }
+// -------------------- Module: screw_hole_layer --------------------
+module screw_hole_layer(z = 0, h = 1, target_diameter = screw_marker_diameter) {
+  marker_delta = (target_diameter - screw_marker_diameter) / 2;
+  extrude_layer(L_screw_markers, z=z, h=h, delta=marker_delta);
+}
 
 // -----------------------------------------------------------------------------
 // ------------------------------ Extruded Components --------------------------
@@ -229,10 +233,10 @@ module usb_c_cutout_position() {
 }
 
 // -------------------- Module: case_screw_holes --------------------
-module case_screw_holes() { drill_holes(screw_positions, case_screw_diameter, 0, case_screw_depth); }
+module case_screw_holes() { screw_hole_layer(h=case_screw_depth, target_diameter=case_screw_diameter); }
 
 // -------------------- Module: lid_screw_holes --------------------
-module lid_screw_holes() { drill_holes(screw_positions, lid_screw_diameter, Z_LID_BASE, lid_thickness); }
+module lid_screw_holes() { screw_hole_layer(z=Z_LID_BASE, h=lid_thickness, target_diameter=lid_screw_diameter); }
 
 
 // -----------------------------------------------------------------------------
