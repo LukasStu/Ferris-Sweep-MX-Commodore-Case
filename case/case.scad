@@ -51,7 +51,7 @@ usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
 
 // Screw positions & sizes
-screw_positions = [[140, -152], [29.5, -132], [30, -32], [152, -32], [153.5, -90]];
+screw_positions = [[140, -152], [88, -133], [29.5, -132], [28.5, -82], [30, -32], [152, -32], [90, -31], [153.5, -90]];
 case_screw_diameter = 2.7;
 case_screw_depth = 3.1;
 lid_screw_diameter = 2.5;
