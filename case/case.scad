@@ -8,9 +8,9 @@ $fn =  100;
 // -------------------- Parameters --------------------
 // top case
 fillet_radius = 2.5;
-top_case_thickness = 3;
+top_case_thickness = 4;
 wall_thickness_outer = 5;
-wall_thickness_inner = 3;
+wall_thickness_inner = 2;
 controller_wall_thickness = 1;
 keycaps_gap = 0.5;
 keycaps_cutout_height = 7.5;
@@ -57,7 +57,8 @@ case_screw_depth = 3.1;
 lid_screw_diameter = 2.5;
 
 // Clearances
-clear_pcb_mm = 0.5;
+clear_pcb_mm = 1.0;
+clear_gasket_mm = 0.5;
 clear_usb_mm = 0.5;
 clear_switch_mm = 0.2;
 reset_button_thick = 0.2;
@@ -145,7 +146,7 @@ module upper_gasket_supports() {
 module lower_gasket_supports() {
   difference() {
     extrude_layer(L_gasket_supports, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness);
-    extrude_layer(L_pcb_outline, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness, delta=clear_pcb_mm);
+    extrude_layer(L_pcb_outline, h=immersion_depth + bottom_foam_thickness + fr4_thickness - compressed_gasket_thickness, delta=clear_gasket_mm);
     }
 }
 
