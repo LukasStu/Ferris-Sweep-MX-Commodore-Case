@@ -25,7 +25,7 @@ actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
 
 fr4_thickness = 1.6;
 switchplate_thickness = 3.3;
-pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + 2 * fr4_thickness;
+pcb_and_plate_thickness = kailh_sockets_thickness + switchplate_thickness + 2 * fr4_thickness;
 
 // gasket
 gasket_thickness = 2;
