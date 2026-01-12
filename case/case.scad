@@ -8,7 +8,7 @@ $fn =  100;
 // -------------------- Parameters --------------------
 // top case
 fillet_radius = 2.5;
-top_case_thickness = 4;
+top_case_thickness = 3;
 wall_thickness_outer = 5;
 wall_thickness_inner = 2;
 controller_wall_thickness = 1;
@@ -18,7 +18,7 @@ decoration_cutout_depth = 0.5;
 decoration_line_width = 1.0;
 
 // PCB + plate + foam stack
-seal_thickness = 6;
+seal_thickness = 5;
 kailh_sockets_thickness = 2;
 bottom_foam_thickness = 3;
 actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
@@ -66,7 +66,7 @@ reset_button_thick = 0.2;
 // Derived
 Z_LID_BASE = -lid_thickness;
 total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
-EXPLODE = 10;
+EXPLODE = 0;
 
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
