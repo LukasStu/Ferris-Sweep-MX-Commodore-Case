@@ -189,7 +189,7 @@ module reset_overhang_cutout(delta = 0) { extrude_layer(L_reset, h=immersion_dep
 // -------------------- Module: reset_switch_button --------------------
 module reset_switch_button() {
   extrude_layer(L_reset, z=Z_LID_BASE - 0.5, h=lid_thickness + 0.5);
-  extrude_layer(L_reset, h=immersion_depth + actual_bottom_foam_thickness + 0.5, delta=reset_button_thick);
+  extrude_layer(L_reset, h=immersion_depth + actual_bottom_foam_thickness, delta=reset_button_thick);
 }
 
 // -------------------- Module: top_plate_decor_cutout --------------------
