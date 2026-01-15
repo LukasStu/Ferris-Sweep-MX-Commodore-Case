@@ -133,7 +133,7 @@ module outer_case() {
 module pcb_holder() {
     difference() {
         extrude_layer(L_outer_shape, h=total_height_top_case-top_case_thickness, delta=-wall_thickness_outer);
-        extrude_layer(L_pcb_outline, h=total_height_top_case-top_case_thickness, delta=wall_thickness_inner);
+        //extrude_layer(L_pcb_outline, h=total_height_top_case-top_case_thickness, delta=wall_thickness_inner);
     }
 }
 
