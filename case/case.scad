@@ -294,16 +294,6 @@ module switchplate_foam() {
     }
 }
 
-// -------------------- Module: bottom foam --------------------
-module bottom_foam() {
-  difference() {
-    extrude_layer(L_switchplate_outline, z=immersion_depth, h=bottom_foam_thickness, delta=-0.3);
-    extrude_layer(L_switches, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
-    extrude_layer(L_pwr_body, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
-    extrude_layer(L_switches, z=immersion_depth, h=bottom_foam_thickness, delta=0.3);
-  }
-}
-
 // -----------------------------------------------------------------------------
 // --------------------------- Optional Tent Support ---------------------------
 // -----------------------------------------------------------------------------
@@ -399,8 +389,7 @@ module build() {
     translate([0, 0, -EXPLODE]) switchplate_foam();
     //translate([0, 0, -2 * EXPLODE]) power_switch_slider();
     //translate([0, 0, -2 * EXPLODE]) reset_switch_button();
-    //translate([0, 0, -3 * EXPLODE]) bottom_foam();
-    translate([0, 0, -4 * EXPLODE]) bottom_case();
+    translate([0, 0, -3 * EXPLODE]) bottom_case();
   } else if (PART == "top_case")
     top_case();
   else if (PART == "switch_plate_foam")
@@ -409,8 +398,6 @@ module build() {
     power_switch_slider();
   else if (PART == "reset_switch_button")
     reset_switch_button();
-  else if (PART == "bottom_foam")
-    bottom_foam();
   else if (PART == "bottom_case")
     bottom_case();
   else if (PART == "tent")
