@@ -18,15 +18,11 @@ decoration_cutout_depth = 0.5;
 decoration_line_width = 1.0;
 
 // bottom case
-immersion_depth = 1;
 bottom_thickness = 1.5;
 bottom_gap = 1.5;
 
 // PCB + plate + foam stack
-seal_thickness = 5;
 kailh_sockets_thickness = 2;
-bottom_foam_thickness = 3;
-actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
 
 fr4_thickness = 1.6;
 switchplate_thickness = 3.3;
@@ -39,14 +35,14 @@ compressed_gasket_thickness = gasket_thickness * (1 - compression);
 
 // power switch slider
 switch_protruction = 1;
-slider_total_height = bottom_thickness + immersion_depth + kailh_sockets_thickness + actual_bottom_foam_thickness + 0.5;
+slider_total_height = bottom_thickness + bottom_gap + kailh_sockets_thickness + 0.5;
 
 // USB
 w_shell = 8.94;
 h_shell = 3.26;
 r_corner = 1.2;
 pcb_usb_distance = 9;
-Z_USB = h_shell / 2 + immersion_depth + kailh_sockets_thickness + actual_bottom_foam_thickness + pcb_usb_distance;
+Z_USB = h_shell / 2 + bottom_gap + kailh_sockets_thickness + pcb_usb_distance;
 usb_main_offset = [139.9, -76, Z_USB];
 usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
@@ -69,8 +65,7 @@ Z_LID_BASE = 0;
 total_height_top_case = keycaps_cutout_height;
 total_height_bottom_case= bottom_thickness + bottom_gap + pcb_and_plate_thickness;
 Z_TOP_CASE = total_height_bottom_case+total_height_top_case;
-//total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
-EXPLODE = 10;
+EXPLODE = 0;
 
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
@@ -195,22 +190,22 @@ module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cu
 module power_switch_slider() {
   difference() {
     extrude_layer(L_pwr_body, z=Z_LID_BASE - switch_protruction, h=slider_total_height + switch_protruction);
-    extrude_layer(L_pwr_knob_cutout, z=Z_LID_BASE + immersion_depth + 0.5, h=slider_total_height - immersion_depth);
+    extrude_layer(L_pwr_knob_cutout, z=Z_LID_BASE + bottom_gap + 0.5, h=slider_total_height - bottom_gap);
     translate([0, 0, Z_LID_BASE - switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_pwr_on_label);
   }
-  extrude_layer(L_pwr_body_overhang, h=immersion_depth);
+  extrude_layer(L_pwr_body_overhang, h=bottom_gap);
 }
 
 // -------------------- Module: reset_cutout --------------------
-module reset_cutout(delta = 0) { extrude_layer(L_reset, z=Z_LID_BASE, h=bottom_thickness + immersion_depth, delta=delta); }
+module reset_cutout(delta = 0) { extrude_layer(L_reset, z=Z_LID_BASE, h=bottom_thickness + bottom_gap, delta=delta); }
 
 // -------------------- Module: reset_overhang_cutout --------------------
-module reset_overhang_cutout(delta = 0) { extrude_layer(L_reset, h=immersion_depth, delta=delta); }
+module reset_overhang_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_gap, delta=delta); }
 
 // -------------------- Module: reset_switch_button --------------------
 module reset_switch_button() {
   extrude_layer(L_reset, z=Z_LID_BASE - 0.5, h=bottom_thickness + 0.5);
-  extrude_layer(L_reset, h=immersion_depth + actual_bottom_foam_thickness, delta=reset_button_thick);
+  extrude_layer(L_reset, h=bottom_thickness + bottom_gap, delta=reset_button_thick);
 }
 
 // -------------------- Module: usb_c_cutout_2d --------------------
@@ -385,9 +380,9 @@ PART = "exploded";
 // -------------------- Module: build --------------------
 module build() {
   if (PART == "exploded") {
-    translate([0, 0, EXPLODE]) top_case();
-    translate([0, 0, -EXPLODE]) switchplate_foam();
-    //translate([0, 0, -2 * EXPLODE]) power_switch_slider();
+    //translate([0, 0, EXPLODE]) top_case();
+    //translate([0, 0, -EXPLODE]) switchplate_foam();
+    translate([0, 0, -2 * EXPLODE]) power_switch_slider();
     //translate([0, 0, -2 * EXPLODE]) reset_switch_button();
     translate([0, 0, -3 * EXPLODE]) bottom_case();
   } else if (PART == "top_case")
