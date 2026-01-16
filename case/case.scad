@@ -35,7 +35,7 @@ compressed_gasket_thickness = gasket_thickness * (1 - compression);
 
 // power switch slider
 switch_protruction = 1;
-slider_total_height = switch_protruction + bottom_thickness + bottom_gap + kailh_sockets_thickness + 0.5;
+slider_total_height = switch_protruction + bottom_thickness + bottom_gap + kailh_sockets_thickness + fr4_thickness - 0.5;
 
 // USB
 w_shell = 8.94;
@@ -380,8 +380,8 @@ PART = "exploded";
 // -------------------- Module: build --------------------
 module build() {
   if (PART == "exploded") {
-    //translate([0, 0, EXPLODE]) top_case();
-    //translate([0, 0, -EXPLODE]) switchplate_foam();
+    translate([0, 0, EXPLODE]) top_case();
+    translate([0, 0, -EXPLODE]) switchplate_foam();
     translate([0, 0, -2 * EXPLODE]) power_switch_slider();
     //translate([0, 0, -2 * EXPLODE]) reset_switch_button();
     translate([0, 0, -3 * EXPLODE]) bottom_case();
