@@ -35,7 +35,7 @@ compressed_gasket_thickness = gasket_thickness * (1 - compression);
 
 // power switch slider
 switch_protruction = 1;
-slider_total_height = bottom_thickness + bottom_gap + kailh_sockets_thickness + 0.5;
+slider_total_height = switch_protruction + bottom_thickness + bottom_gap + kailh_sockets_thickness + 0.5;
 
 // USB
 w_shell = 8.94;
@@ -172,7 +172,7 @@ module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - c
 module case_screw_holes() { screw_hole_layer(h=case_screw_depth, target_diameter=case_screw_diameter); }
 
 // -------------------- Module: lid_screw_holes --------------------
-module lid_screw_holes() { screw_hole_layer(z=Z_LID_BASE, h=bottom_thickness, target_diameter=lid_screw_diameter); }
+module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=lid_screw_diameter); }
 
 
 // -----------------------------------------------------------------------------
@@ -189,22 +189,22 @@ module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cu
 // -------------------- Module: power_switch_slider --------------------
 module power_switch_slider() {
   difference() {
-    extrude_layer(L_pwr_body, z=Z_LID_BASE - switch_protruction, h=slider_total_height + switch_protruction);
-    extrude_layer(L_pwr_knob_cutout, z=Z_LID_BASE + bottom_gap + 0.5, h=slider_total_height - bottom_gap);
-    translate([0, 0, Z_LID_BASE - switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_pwr_on_label);
+    extrude_layer(L_pwr_body, z=-switch_protruction, h=slider_total_height);
+    extrude_layer(L_pwr_knob_cutout, z= bottom_thickness, h=slider_total_height - bottom_thickness);
+    translate([0, 0, -switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_pwr_on_label);
   }
-  extrude_layer(L_pwr_body_overhang, h=bottom_gap);
+  extrude_layer(L_pwr_body_overhang, z= bottom_thickness, h=bottom_gap/2);
 }
 
 // -------------------- Module: reset_cutout --------------------
-module reset_cutout(delta = 0) { extrude_layer(L_reset, z=Z_LID_BASE, h=bottom_thickness + bottom_gap, delta=delta); }
+module reset_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_thickness + bottom_gap, delta=delta); }
 
 // -------------------- Module: reset_overhang_cutout --------------------
 module reset_overhang_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_gap, delta=delta); }
 
 // -------------------- Module: reset_switch_button --------------------
 module reset_switch_button() {
-  extrude_layer(L_reset, z=Z_LID_BASE - 0.5, h=bottom_thickness + 0.5);
+  extrude_layer(L_reset, z=- 0.5, h=bottom_thickness + 0.5);
   extrude_layer(L_reset, h=bottom_thickness + bottom_gap, delta=reset_button_thick);
 }
 
