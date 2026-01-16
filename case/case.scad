@@ -70,7 +70,7 @@ total_height_top_case = keycaps_cutout_height;
 total_height_bottom_case= bottom_thickness + bottom_gap + pcb_and_plate_thickness;
 Z_TOP_CASE = total_height_bottom_case+total_height_top_case;
 //total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
-EXPLODE = 0;
+EXPLODE = 10;
 
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
@@ -168,8 +168,8 @@ module pcb_stack() { extrude_layer(L_pcb_outline, z=bottom_thickness, h= bottom_
 // -------------------- Module: keycaps_cutout --------------------
 module keycaps_cutout() { extrude_layer(L_keycaps_outline, h=Z_TOP_CASE, delta=2 * keycaps_gap); }
 
-// -------------------- Module: flat_usb_cutout --------------------
-module flat_usb_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - controller_wall_thickness, delta=clear_usb_mm); }
+// -------------------- Module: controller_cutout --------------------
+module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - controller_wall_thickness, delta=clear_usb_mm); }
 
 
 
@@ -262,7 +262,7 @@ module top_case() {
     case_screw_holes();
     top_plate_decor_cutout();
     top_plate_decor_lines_cutout();
-    flat_usb_cutout();
+    controller_cutout();
     usb_c_cutout_position();
   }
   top_plate_decor();
