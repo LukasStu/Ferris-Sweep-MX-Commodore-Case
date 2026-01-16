@@ -169,7 +169,7 @@ module pcb_stack() { extrude_layer(L_pcb_outline, z=bottom_thickness, h= bottom_
 module keycaps_cutout() { extrude_layer(L_keycaps_outline, h=Z_TOP_CASE, delta=2 * keycaps_gap); }
 
 // -------------------- Module: flat_usb_cutout --------------------
-module flat_usb_cutout() { extrude_layer(L_controller_cutout, h=total_height_top_case - controller_wall_thickness, delta=clear_usb_mm); }
+module flat_usb_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - controller_wall_thickness, delta=clear_usb_mm); }
 
 
 
@@ -186,10 +186,10 @@ module lid_screw_holes() { screw_hole_layer(z=Z_LID_BASE, h=bottom_thickness, ta
 
 
 // -------------------- Module: pwr_switch_slider_cutout --------------------
-module pwr_switch_slider_cutout(delta = 0) { extrude_layer(L_pwr_lid_cutout, z=Z_LID_BASE, h=bottom_thickness + immersion_depth, delta=delta); }
+module pwr_switch_slider_cutout(delta = 0) { extrude_layer(L_pwr_lid_cutout, h=bottom_thickness, delta=delta); }
 
 // -------------------- Module: power_switch_overhang_cutout --------------------
-module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cutout, h=slider_total_height, delta=delta); }
+module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cutout, z=bottom_thickness , h=slider_total_height, delta=delta); }
 
 // -------------------- Module: power_switch_slider --------------------
 module power_switch_slider() {
@@ -287,10 +287,10 @@ module bottom_case() {
 
 // -------------------- Module: switchplate foam --------------------
 module switchplate_foam() {
-    extrude_layer(L_gasket_supports, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
+    extrude_layer(L_gasket_supports, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness);
     difference() {
-      extrude_layer(L_switchplate_outline, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness);
-      extrude_layer(L_switches, z=immersion_depth + bottom_foam_thickness + fr4_thickness, h=switchplate_thickness, delta=0.3);
+      extrude_layer(L_switchplate_outline, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness);
+      extrude_layer(L_switches, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness, delta=0.3);
     }
 }
 
@@ -396,7 +396,7 @@ PART = "exploded";
 module build() {
   if (PART == "exploded") {
     translate([0, 0, EXPLODE]) top_case();
-    //translate([0, 0, -EXPLODE]) switchplate_foam();
+    translate([0, 0, -EXPLODE]) switchplate_foam();
     //translate([0, 0, -2 * EXPLODE]) power_switch_slider();
     //translate([0, 0, -2 * EXPLODE]) reset_switch_button();
     //translate([0, 0, -3 * EXPLODE]) bottom_foam();
