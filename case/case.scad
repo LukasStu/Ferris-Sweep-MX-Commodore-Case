@@ -198,15 +198,12 @@ module power_switch_slider() {
 }
 
 // -------------------- Module: reset_cutout --------------------
-module reset_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_thickness + bottom_gap, delta=delta); }
-
-// -------------------- Module: reset_overhang_cutout --------------------
-module reset_overhang_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_gap, delta=delta); }
+module reset_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_thickness, delta=delta); }
 
 // -------------------- Module: reset_switch_button --------------------
 module reset_switch_button() {
-  extrude_layer(L_reset, z=- 0.5, h=bottom_thickness + 0.5);
-  extrude_layer(L_reset, h=bottom_thickness + bottom_gap, delta=reset_button_thick);
+  extrude_layer(L_reset, h=bottom_thickness);
+  extrude_layer(L_reset, z=bottom_thickness, h=bottom_gap, delta=1);
 }
 
 // -------------------- Module: usb_c_cutout_2d --------------------
@@ -273,7 +270,6 @@ module bottom_case() {
   difference() {
     outer_shape_bottom();
     reset_cutout(0.2);
-    reset_overhang_cutout(reset_button_thick + 0.2);
     lid_screw_holes();
     pwr_switch_slider_cutout(delta=clear_switch_mm);
     power_switch_overhang_cutout(delta=clear_switch_mm);
@@ -381,10 +377,10 @@ PART = "exploded";
 // -------------------- Module: build --------------------
 module build() {
   if (PART == "exploded") {
-    translate([0, 0, EXPLODE]) top_case();
-    translate([0, 0, -EXPLODE]) switchplate_foam();
+    //translate([0, 0, EXPLODE]) top_case();
+    //translate([0, 0, -EXPLODE]) switchplate_foam();
     translate([0, 0, -2 * EXPLODE]) power_switch_slider();
-    //translate([0, 0, -2 * EXPLODE]) reset_switch_button();
+    translate([0, 0, -2 * EXPLODE]) reset_switch_button();
     translate([0, 0, -3 * EXPLODE]) bottom_case();
   } else if (PART == "top_case")
     top_case();
