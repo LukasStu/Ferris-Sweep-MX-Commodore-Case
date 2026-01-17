@@ -50,9 +50,10 @@ usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
 
 // Screw positions & sizes
-case_screw_diameter = 2.7;
-case_screw_depth = 3.1;
+heat_sink_insert_diameter = 2.7;
+heat_sink_insert_depth = 3.1;
 lid_screw_diameter = 2.5;
+thread_length = 8;
 screw_marker_diameter = 1;
 
 // Clearances
@@ -180,7 +181,7 @@ module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - c
 
 
 // -------------------- Module: case_screw_holes --------------------
-module case_screw_holes() { screw_hole_layer(h=case_screw_depth, target_diameter=case_screw_diameter); }
+module case_screw_holes() { screw_hole_layer(h=heat_sink_insert_depth, target_diameter=heat_sink_insert_diameter); }
 
 // -------------------- Module: lid_screw_holes --------------------
 module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=lid_screw_diameter); }
