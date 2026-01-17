@@ -56,6 +56,11 @@ lid_screw_diameter = 2.5;
 thread_length = 8;
 screw_marker_diameter = 1;
 
+//rim
+rim = 1;
+rim_height = 1;
+rim_clear = 0.2;
+
 // Clearances
 clear_pcb_mm = 1.0;
 clear_gasket_mm = 0.5;
@@ -68,7 +73,7 @@ Z_LID_BASE = 0;
 total_height_top_case = keycaps_cutout_height;
 total_height_bottom_case= bottom_thickness + bottom_gap + pcb_and_plate_thickness;
 Z_TOP_CASE = total_height_bottom_case+total_height_top_case;
-EXPLODE = 0;
+EXPLODE = 10;
 
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
@@ -147,6 +152,15 @@ module outer_shape_bottom() {
     extrude_layer(L_outer_shape, z= bottom_thickness, h=total_height_bottom_case-bottom_thickness, delta=-wall_thickness_outer);
   }
 }
+
+// -------------------- Module: case_rim --------------------
+module case_rim(delta = 0) {
+  difference() {
+    extrude_layer(L_outer_shape, z=total_height_bottom_case, h=rim_height-delta, delta=-wall_thickness_outer/2+rim/2-delta/2);
+    extrude_layer(L_outer_shape, z=total_height_bottom_case, h=rim_height-delta, delta=-wall_thickness_outer/2-rim/2+delta/2);
+    }
+}
+
 
 // -------------------- Module: upper_gasket_supports --------------------
 module upper_gasket_supports() {
@@ -268,6 +282,7 @@ module top_case() {
     top_plate_decor_lines_cutout();
     controller_cutout();
     usb_c_cutout_position();
+    case_rim(rim_clear);
   }
   top_plate_decor();
   difference() {
@@ -287,6 +302,7 @@ module bottom_case() {
   }
    lower_gasket_supports();
    lower_gasket_supports_rim();
+   case_rim();
 }
 
 // -------------------- Module: switchplate foam --------------------
