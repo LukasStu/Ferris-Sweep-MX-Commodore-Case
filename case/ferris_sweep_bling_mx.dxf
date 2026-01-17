@@ -23,17 +23,17 @@ $INSBASE
   9
 $EXTMIN
  10
-43.28087371125044
+26
  20
--146.2019112602238
+-155.1777003887268
  30
 0
   9
 $EXTMAX
  10
-126.1510976054961
+156
  20
--44.65903162081968
+-28.69049412730159
  30
 0
   9
@@ -91,7 +91,7 @@ STANDARD
   9
 $CLAYER
   8
-gasket_supports_rim
+screw_markers
   9
 $CELTYPE
   6
@@ -1115,9 +1115,9 @@ AcDbViewportTableRecord
  21
 1
  12
-79.42719192436759
+151.0556911047569
  22
--59.11652427513645
+-10.63641061515892
  13
 0
  23
@@ -1143,9 +1143,9 @@ AcDbViewportTableRecord
  37
 0
  40
-49.81219607828196
+208.622931013117
  41
-1.616173120728929
+1.841681574239714
  42
 50
  43
@@ -2367,7 +2367,7 @@ AcDbLayerTableRecord
   2
 outer_shape
  70
-    1
+    0
  62
     7
   6
@@ -2411,7 +2411,7 @@ AcDbLayerTableRecord
   2
 pcb_outline
  70
-    1
+    0
  62
     7
   6
@@ -2587,7 +2587,7 @@ AcDbLayerTableRecord
   2
 screw_markers
  70
-    1
+    0
  62
     7
   6
@@ -11707,6 +11707,94 @@ AcDbArc
  51
 331.411864582232
   0
+CIRCLE
+  5
+1A7
+100
+AcDbEntity
+  8
+screw_markers
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+35.45470205052972
+ 20
+-50.38299765075276
+ 40
+0.5
+  0
+CIRCLE
+  5
+1A8
+100
+AcDbEntity
+  8
+screw_markers
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+51.68922351577227
+ 20
+-42.91884985064124
+ 40
+0.5
+  0
+CIRCLE
+  5
+1A9
+100
+AcDbEntity
+  8
+screw_markers
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+75.57449647612913
+ 20
+-40.86620920561057
+ 40
+0.5
+  0
+CIRCLE
+  5
+1AA
+100
+AcDbEntity
+  8
+screw_markers
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+119.7995721917899
+ 20
+-40.49300181560499
+ 40
+0.5
+  0
 ENDSEC
   0
 SECTION
@@ -11739,7 +11827,7 @@ AcDbDictionary
   0
 PLOTSETTINGS
   5
-1A7
+1AB
 100
 AcDbPlotSettings
   6

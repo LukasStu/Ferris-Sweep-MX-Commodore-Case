@@ -52,8 +52,11 @@ usb_tunnel_len_mm = 50;
 // Screw positions & sizes
 heat_sink_insert_diameter = 2.7;
 heat_sink_insert_depth = 3.1;
-lid_screw_diameter = 2.5;
-thread_length = 8;
+screw_diameter = 2.5;
+thread_length = 4;
+head_diameter = 4;
+thread_intrusion = 2;
+screw_support_diameter = 6;
 screw_marker_diameter = 1;
 
 //rim
@@ -127,6 +130,16 @@ module screw_hole_layer(z = 0, h = 1, target_diameter = screw_marker_diameter) {
   extrude_layer(L_screw_markers, z=z, h=h, delta=marker_delta);
 }
 
+// -------------------- Module: top_insert_support --------------------
+module top_insert_support() {
+  screw_support_diameter_delta = (screw_support_diameter - screw_marker_diameter) / 2;
+  heat_sink_insert_diameter_delta = (heat_sink_insert_diameter - screw_marker_diameter) / 2;
+  difference() {
+    extrude_layer(L_screw_markers, z=Z_TOP_CASE-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=screw_support_diameter_delta);
+    extrude_layer(L_screw_markers, z=Z_TOP_CASE-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=heat_sink_insert_diameter_delta);
+    }
+}
+
 // -----------------------------------------------------------------------------
 // ------------------------------ Extruded Components --------------------------
 // -----------------------------------------------------------------------------
@@ -198,7 +211,7 @@ module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - c
 module case_screw_holes() { screw_hole_layer(h=heat_sink_insert_depth, target_diameter=heat_sink_insert_diameter); }
 
 // -------------------- Module: lid_screw_holes --------------------
-module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=lid_screw_diameter); }
+module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=screw_diameter); }
 
 
 // -----------------------------------------------------------------------------
@@ -285,6 +298,7 @@ module top_case() {
     case_rim(rim_clear);
   }
   top_plate_decor();
+  top_insert_support();
   difference() {
     upper_gasket_supports();
     keycaps_cutout();
@@ -400,7 +414,7 @@ module tent() {
 // -----------------------------------------------------------------------------
 // ------------------------------ Build Select ---------------------------------
 // -----------------------------------------------------------------------------
-PART = "exploded";
+PART = "top_case";
 
 // -------------------- Module: build --------------------
 module build() {
