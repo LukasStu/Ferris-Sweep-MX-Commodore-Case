@@ -59,6 +59,7 @@ thread_intrusion = 2;
 screw_support_diameter = 6;
 screw_marker_diameter = 1;
 
+
 //rim
 rim = 1;
 rim_height = 1;
@@ -76,6 +77,7 @@ Z_LID_BASE = 0;
 total_height_top_case = keycaps_cutout_height;
 total_height_bottom_case= bottom_thickness + bottom_gap + pcb_and_plate_thickness;
 Z_TOP_CASE = total_height_bottom_case+total_height_top_case;
+total_gap=Z_TOP_CASE-bottom_thickness-top_case_thickness;
 EXPLODE = 10;
 
 // Single DXF file + layer names
@@ -137,6 +139,18 @@ module top_insert_support() {
   difference() {
     extrude_layer(L_screw_markers, z=Z_TOP_CASE-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=screw_support_diameter_delta);
     extrude_layer(L_screw_markers, z=Z_TOP_CASE-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=heat_sink_insert_diameter_delta);
+    }
+}
+
+// -------------------- Module: botton_screw_support --------------------
+module bottom_screw_support() {
+  screw_support_diameter_delta = (screw_support_diameter - screw_marker_diameter) / 2;
+  head_diameter_delta = (head_diameter - screw_marker_diameter) / 2;
+  screw_diameter_delta = (screw_diameter - screw_marker_diameter) / 2;
+  difference() {
+    extrude_layer(L_screw_markers, z=0, h=total_gap-thread_length-heat_sink_insert_depth-0.2, delta=screw_support_diameter_delta);
+    extrude_layer(L_screw_markers, z=0, h=total_gap-thread_length-thread_intrusion-heat_sink_insert_depth, delta=head_diameter_delta);
+    extrude_layer(L_screw_markers, z=0, h=total_gap-heat_sink_insert_depth-thread_intrusion, delta=screw_diameter_delta);
     }
 }
 
@@ -211,7 +225,7 @@ module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - c
 module case_screw_holes() { screw_hole_layer(h=heat_sink_insert_depth, target_diameter=heat_sink_insert_diameter); }
 
 // -------------------- Module: lid_screw_holes --------------------
-module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=screw_diameter); }
+module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=head_diameter); }
 
 
 // -----------------------------------------------------------------------------
@@ -317,6 +331,7 @@ module bottom_case() {
    lower_gasket_supports();
    lower_gasket_supports_rim();
    case_rim();
+   bottom_screw_support();
 }
 
 // -------------------- Module: switchplate foam --------------------
@@ -414,7 +429,7 @@ module tent() {
 // -----------------------------------------------------------------------------
 // ------------------------------ Build Select ---------------------------------
 // -----------------------------------------------------------------------------
-PART = "top_case";
+PART = "bottom_case";
 
 // -------------------- Module: build --------------------
 module build() {
