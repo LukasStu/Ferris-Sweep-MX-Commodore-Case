@@ -330,11 +330,18 @@ module bottom_case() {
     lid_screw_holes();
     pwr_switch_slider_cutout(delta=clear_switch_mm);
     power_switch_overhang_cutout(delta=clear_switch_mm);
+    usb_c_cutout_position();
   }
    lower_gasket_supports();
    lower_gasket_supports_rim();
-   case_rim();
-   bottom_screw_support();
+   difference() {
+    case_rim();
+    usb_c_cutout_position();
+   }
+  difference() {
+    bottom_screw_support();
+    usb_c_cutout_position();
+   }
 }
 
 // -------------------- Module: switchplate foam --------------------
