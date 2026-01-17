@@ -150,7 +150,7 @@ module bottom_screw_support() {
   difference() {
     extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth-0.2, delta=screw_support_diameter_delta);
     extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-thread_length-thread_intrusion-heat_sink_insert_depth, delta=head_diameter_delta);
-    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth-thread_intrusion, delta=screw_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth, delta=screw_diameter_delta);
     }
 }
 
@@ -312,7 +312,10 @@ module top_case() {
     case_rim(rim_clear);
   }
   top_plate_decor();
-  top_insert_support();
+  difference() {
+    top_insert_support();
+    usb_c_cutout_position();
+  }
   difference() {
     upper_gasket_supports();
     keycaps_cutout();
