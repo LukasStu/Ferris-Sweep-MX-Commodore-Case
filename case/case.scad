@@ -35,6 +35,7 @@ compressed_gasket_thickness = gasket_thickness * (1 - compression);
 
 // power switch slider
 switch_protruction = 1;
+slider_immersion_depth = 0.5;
 slider_total_height = switch_protruction + bottom_thickness + bottom_gap + kailh_sockets_thickness + fr4_thickness - 0.5;
 
 // USB
@@ -184,7 +185,7 @@ module lid_screw_holes() { screw_hole_layer(h=bottom_thickness, target_diameter=
 module pwr_switch_slider_cutout(delta = 0) { extrude_layer(L_pwr_lid_cutout, h=bottom_thickness, delta=delta); }
 
 // -------------------- Module: power_switch_overhang_cutout --------------------
-module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cutout, z=bottom_thickness , h=slider_total_height, delta=delta); }
+module power_switch_overhang_cutout(delta = 0) { extrude_layer(L_pwr_overhang_cutout, z=bottom_thickness-slider_immersion_depth , h=slider_total_height, delta=delta); }
 
 // -------------------- Module: power_switch_slider --------------------
 module power_switch_slider() {
@@ -193,7 +194,7 @@ module power_switch_slider() {
     extrude_layer(L_pwr_knob_cutout, z= bottom_thickness, h=slider_total_height - bottom_thickness);
     translate([0, 0, -switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_pwr_on_label);
   }
-  extrude_layer(L_pwr_body_overhang, z= bottom_thickness, h=bottom_gap/2);
+  extrude_layer(L_pwr_body_overhang, z= bottom_thickness-slider_immersion_depth, h=bottom_gap/2);
 }
 
 // -------------------- Module: reset_cutout --------------------
