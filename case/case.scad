@@ -148,9 +148,9 @@ module bottom_screw_support() {
   head_diameter_delta = (head_diameter - screw_marker_diameter) / 2;
   screw_diameter_delta = (screw_diameter - screw_marker_diameter) / 2;
   difference() {
-    extrude_layer(L_screw_markers, z=0, h=total_gap-thread_length-heat_sink_insert_depth-0.2, delta=screw_support_diameter_delta);
-    extrude_layer(L_screw_markers, z=0, h=total_gap-thread_length-thread_intrusion-heat_sink_insert_depth, delta=head_diameter_delta);
-    extrude_layer(L_screw_markers, z=0, h=total_gap-heat_sink_insert_depth-thread_intrusion, delta=screw_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth-0.2, delta=screw_support_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-thread_length-thread_intrusion-heat_sink_insert_depth, delta=head_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth-thread_intrusion, delta=screw_diameter_delta);
     }
 }
 
@@ -429,7 +429,7 @@ module tent() {
 // -----------------------------------------------------------------------------
 // ------------------------------ Build Select ---------------------------------
 // -----------------------------------------------------------------------------
-PART = "bottom_case";
+PART = "exploded";
 
 // -------------------- Module: build --------------------
 module build() {
