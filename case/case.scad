@@ -32,6 +32,7 @@ pcb_and_plate_thickness =  kailh_sockets_thickness + switchplate_thickness + 2 *
 gasket_thickness = 2;
 compression = 0.6;
 compressed_gasket_thickness = gasket_thickness * (1 - compression);
+gasket_rims_protrusion = 1.5;
 
 // power switch slider
 switch_protruction = 1;
@@ -87,6 +88,7 @@ L_pwr_on_label = "pwr_on_label";
 L_switches = "switches";
 L_switchplate_outline = "switchplate_outline";
 L_gasket_supports = "gasket_supports";
+L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
 
 // Layout of the top case from top to bottom starting at Z=0 going positive:
@@ -147,7 +149,10 @@ module outer_shape_bottom() {
 
 // -------------------- Module: upper_gasket_supports --------------------
 module upper_gasket_supports() {
+  difference() {
     extrude_layer(L_gasket_supports, z= bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + keycaps_cutout_height- decoration_cutout_depth - compressed_gasket_thickness, delta = 0.2);
+    extrude_layer(L_pcb_outline, z= bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + keycaps_cutout_height- decoration_cutout_depth - compressed_gasket_thickness, delta = 0.2);
+  }
 }
 
 // -------------------- Module: lower_gasket_supports --------------------
@@ -156,6 +161,11 @@ module lower_gasket_supports() {
     extrude_layer(L_gasket_supports, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness - compressed_gasket_thickness, delta = 0.2);
     extrude_layer(L_pcb_outline, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness - compressed_gasket_thickness, delta=clear_gasket_mm);
     }
+}
+
+// -------------------- Module: lower_gasket_supports_rim --------------------
+module lower_gasket_supports_rim() {
+  extrude_layer(L_gasket_supports_rim, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness + compressed_gasket_thickness + gasket_rims_protrusion, delta = -0.2);
 }
 
 // -------------------- Module: pcb_stack --------------------
@@ -275,6 +285,7 @@ module bottom_case() {
     power_switch_overhang_cutout(delta=clear_switch_mm);
   }
    lower_gasket_supports();
+   lower_gasket_supports_rim();
 }
 
 // -------------------- Module: switchplate foam --------------------
@@ -377,8 +388,8 @@ PART = "exploded";
 // -------------------- Module: build --------------------
 module build() {
   if (PART == "exploded") {
-    //translate([0, 0, EXPLODE]) top_case();
-    //translate([0, 0, -EXPLODE]) switchplate_foam();
+    translate([0, 0, EXPLODE]) top_case();
+    translate([0, 0, -EXPLODE]) switchplate_foam();
     translate([0, 0, -2 * EXPLODE]) power_switch_slider();
     translate([0, 0, -2 * EXPLODE]) reset_switch_button();
     translate([0, 0, -3 * EXPLODE]) bottom_case();
