@@ -264,7 +264,7 @@ module reset_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_thickness, delt
 
 // -------------------- Module: reset_switch_button --------------------
 module reset_switch_button() {
-  extrude_layer(L_reset, z= -switch_protruction, h=bottom_thickness+-switch_protruction);
+  extrude_layer(L_reset, z= -switch_protruction, h=bottom_thickness+switch_protruction);
   extrude_layer(L_reset, z=bottom_thickness, h=bottom_gap, delta=1);
 }
 
