@@ -9,8 +9,8 @@ $fn =  100;
 // top case
 fillet_radius = 2.5;
 top_case_thickness = 3;
-wall_thickness_outer = 4;
-controller_wall_thickness = 1;
+case_wall_thickness = 4;
+controller_cover_thickness = 1;
 keycaps_gap = 0.5;
 keycaps_cutout_height = 8.5;
 decoration_cutout_depth = 0.5;
@@ -31,7 +31,7 @@ pcb_and_plate_thickness =  kailh_sockets_thickness + switchplate_thickness + 2 *
 gasket_thickness = 2;
 compression = 0.5;
 compressed_gasket_thickness = gasket_thickness * (1 - compression);
-gasket_rims_protrusion = 1.5;
+gasket_rim = 1.5;
 
 // power switch slider
 switch_protruction = 1;
@@ -166,7 +166,7 @@ module outer_shape_top() {
     extrude_layer(L_outer_shape,  z=total_height_bottom_case, h=fillet_radius);
     minkowski() { sphere(fillet_radius); translate([0, 0, total_height_bottom_case+fillet_radius]) extrude_layer(L_outer_shape, h=total_height_top_case - 2 * fillet_radius, delta= - fillet_radius); }
   }
-  extrude_layer(L_outer_shape, total_height_bottom_case, h=total_height_top_case-top_case_thickness, delta=-wall_thickness_outer);
+  extrude_layer(L_outer_shape, total_height_bottom_case, h=total_height_top_case-top_case_thickness, delta=-case_wall_thickness);
   }
 }
 
@@ -177,15 +177,15 @@ module outer_shape_bottom() {
       extrude_layer(L_outer_shape,  z=fillet_radius, h=total_height_bottom_case-fillet_radius);
       minkowski() { sphere(fillet_radius); translate([0, 0, fillet_radius]) extrude_layer(L_outer_shape, h=total_height_bottom_case - 2 * fillet_radius, delta= - fillet_radius); }
     }
-    extrude_layer(L_outer_shape, z= bottom_thickness, h=total_height_bottom_case-bottom_thickness, delta=-wall_thickness_outer);
+    extrude_layer(L_outer_shape, z= bottom_thickness, h=total_height_bottom_case-bottom_thickness, delta=-case_wall_thickness);
   }
 }
 
 // -------------------- Module: case_rim --------------------
 module case_rim(delta = 0) {
   difference() {
-    extrude_layer(L_outer_shape, z=total_height_bottom_case, h=rim_height+delta, delta=-wall_thickness_outer/2+rim/2+delta/2);
-    extrude_layer(L_outer_shape, z=total_height_bottom_case, h=rim_height+delta, delta=-wall_thickness_outer/2-rim/2-delta/2);
+    extrude_layer(L_outer_shape, z=total_height_bottom_case, h=rim_height+delta, delta=-case_wall_thickness/2+rim/2+delta/2);
+    extrude_layer(L_outer_shape, z=total_height_bottom_case, h=rim_height+delta, delta=-case_wall_thickness/2-rim/2-delta/2);
     }
 }
 
@@ -209,8 +209,8 @@ module lower_gasket_supports() {
 // -------------------- Module: lower_gasket_supports_rim --------------------
 module lower_gasket_supports_rim() {
     difference() {
-    extrude_layer(L_gasket_supports_rim, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness + compressed_gasket_thickness + gasket_rims_protrusion);
-    extrude_layer(L_pcb_outline, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness + compressed_gasket_thickness + gasket_rims_protrusion, delta=clear_gasket_mm);
+    extrude_layer(L_gasket_supports_rim, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness + compressed_gasket_thickness + gasket_rim);
+    extrude_layer(L_pcb_outline, z=bottom_thickness, h=bottom_gap + kailh_sockets_thickness + fr4_thickness + compressed_gasket_thickness + gasket_rim, delta=clear_gasket_mm);
     }
  
 }
@@ -222,7 +222,7 @@ module pcb_stack() { extrude_layer(L_pcb_outline, z=bottom_thickness, h= bottom_
 module keycaps_cutout() { extrude_layer(L_keycaps_outline, h=Z_TOP_CASE, delta=2 * keycaps_gap); }
 
 // -------------------- Module: controller_cutout --------------------
-module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - controller_wall_thickness, delta=clear_usb_mm); }
+module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - controller_cover_thickness, delta=clear_usb_mm); }
 
 
 
