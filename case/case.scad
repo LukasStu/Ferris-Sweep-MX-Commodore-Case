@@ -1,7 +1,13 @@
 // -----------------------------------------------------------------------------
-// --------------- Key Parameters, Fine-Tuning Here ---------------------------
+// Ferris Sweep MX Case Generator
+// Author: Lukas Stürmlinger
+// Requires: OpenSCAD 2021+ and ferris_sweep_bling_mx.dxf in the same directory.
+// Description: Builds top/bottom shells, switch-plate foam, slider, reset button,
+//              and optional tent support by extruding DXF layers via extrude_layer().
+// Usage: Set PART to "top_case", "bottom_case", etc., then F6 to render.
+// Notes: All dimensions in millimeters; DXF layers listed below must be kept in sync.
+// CI: Every push triggers .github/workflows/build-stls-on-push.yml to render all STLs via GitHub Actions.
 // -----------------------------------------------------------------------------
-
 $fn =  100;
 
 // Dimensions & geometry
@@ -103,22 +109,16 @@ L_gasket_supports = "gasket_supports";
 L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
 
-// Layout of the top case from top to bottom starting at Z=0 going positive:
+// Layers of the top case from top to bottom:
 // -keycaps_cutout height
-// -seal
+// Layers of the bottom case from top to bottom:
 // ---pcb stack end---
 // -switchplate (fr4)
 // -switchplate foam
 // -pcb (fr4)
 // ---pcb stack start--- 
-// -bottom foam
-// -immersion_depth
-
-
-// Layout of the bottom case from top to bottom starting at Z=0 going negative:
-// -immersion_depth
+// -bottom_gap
 // -bottom_thickness
-
 
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
