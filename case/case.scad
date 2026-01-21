@@ -26,12 +26,15 @@ decoration_line_width = 1.0;
 bottom_thickness = 1.5;
 bottom_gap = 1.5;
 
-// PCB + plate + foam stack
-kailh_sockets_thickness = 2;
+// rim
+rim = 1;
+rim_height = 1;
+rim_clear = 0.2;
 
+// PCB + plate
+kailh_sockets_thickness = 2;
 fr4_thickness = 1.6;
-switchplate_thickness = 3.3;
-pcb_and_plate_thickness =  kailh_sockets_thickness + switchplate_thickness + 2 * fr4_thickness;
+switch_plate_damper_thickness = 3.3;
 
 // gasket
 gasket_thickness = 2;
@@ -64,12 +67,6 @@ thread_intrusion = 2;
 screw_support_diameter = 6;
 screw_marker_diameter = 1;
 
-
-//rim
-rim = 1;
-rim_height = 1;
-rim_clear = 0.2;
-
 // Clearances
 clear_pcb_mm = 1.0;
 clear_gasket_mm = 0.5;
@@ -78,13 +75,22 @@ clear_switch_mm = 0.2;
 reset_button_thick = 0.2;
 screw_support_clearance = 0.2;
 
+// Derived Heights
+z_bottom_gap = bottom_thickness;
+z_kailh_sockets = z_bottom_gap + bottom_gap;
+z_pcb = z_kailh_sockets + kailh_sockets_thickness;
+z_switchplate_foam = z_pcb + fr4_thickness;
+z_switchplate = z_switchplate_foam + switch_plate_damper_thickness;
+z_keycaps_cutout = z_switchplate + fr4_thickness;
+
+// bases and tops
+z_bottom_case_top = z_keycaps_cutout;
+z_top_case_base = z_bottom_case_top;
+z_top_case_top = z_bottom_case_top + keycaps_cutout_height; 
+
 // Derived
-Z_LID_BASE = 0;
+total_height_bottom_case= z_keycaps_cutout;
 total_height_top_case = keycaps_cutout_height;
-total_height_bottom_case= bottom_thickness + bottom_gap + pcb_and_plate_thickness;
-Z_TOP_CASE = total_height_bottom_case+total_height_top_case;
-total_gap=Z_TOP_CASE-bottom_thickness-top_case_thickness;
-EXPLODE = 10;
 
 // Single DXF file + layer names
 DXF = "ferris_sweep_bling_mx.dxf";
@@ -109,16 +115,6 @@ L_gasket_supports = "gasket_supports";
 L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
 
-// Layers of the top case from top to bottom:
-// -keycaps_cutout height
-// Layers of the bottom case from top to bottom:
-// ---pcb stack end---
-// -switchplate (fr4)
-// -switchplate foam
-// -pcb (fr4)
-// ---pcb stack start--- 
-// -bottom_gap
-// -bottom_thickness
 
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
@@ -138,8 +134,8 @@ module top_insert_support() {
   screw_support_diameter_delta = (screw_support_diameter - screw_marker_diameter) / 2;
   heat_sink_insert_diameter_delta = (heat_sink_insert_diameter - screw_marker_diameter) / 2;
   difference() {
-    extrude_layer(L_screw_markers, z=Z_TOP_CASE-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=screw_support_diameter_delta);
-    extrude_layer(L_screw_markers, z=Z_TOP_CASE-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=heat_sink_insert_diameter_delta);
+    extrude_layer(L_screw_markers, z=z_top_case_top-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=screw_support_diameter_delta);
+    extrude_layer(L_screw_markers, z=z_top_case_top-top_case_thickness-heat_sink_insert_depth, h=heat_sink_insert_depth, delta=heat_sink_insert_diameter_delta);
     }
 }
 
@@ -149,9 +145,9 @@ module bottom_screw_support() {
   head_diameter_delta = (head_diameter - screw_marker_diameter) / 2;
   screw_diameter_delta = (screw_diameter - screw_marker_diameter) / 2;
   difference() {
-    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth-screw_support_clearance, delta=screw_support_diameter_delta);
-    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-(thread_length-thread_intrusion)-heat_sink_insert_depth, delta=head_diameter_delta);
-    extrude_layer(L_screw_markers, z=bottom_thickness, h=total_gap-heat_sink_insert_depth, delta=screw_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=z_top_case_top-bottom_thickness-top_case_thickness-heat_sink_insert_depth-screw_support_clearance, delta=screw_support_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=z_top_case_top-bottom_thickness-top_case_thickness-(thread_length-thread_intrusion)-heat_sink_insert_depth, delta=head_diameter_delta);
+    extrude_layer(L_screw_markers, z=bottom_thickness, h=z_top_case_top-bottom_thickness-top_case_thickness-heat_sink_insert_depth, delta=screw_diameter_delta);
     }
 }
 
@@ -193,8 +189,8 @@ module case_rim(delta = 0) {
 // -------------------- Module: upper_gasket_supports --------------------
 module upper_gasket_supports() {
   difference() {
-    extrude_layer(L_gasket_supports, z= bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + keycaps_cutout_height- decoration_cutout_depth - compressed_gasket_thickness, delta = 0.2);
-    extrude_layer(L_pcb_outline, z= bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness + switchplate_thickness + compressed_gasket_thickness, h=fr4_thickness + keycaps_cutout_height- decoration_cutout_depth - compressed_gasket_thickness, delta = 0.2);
+    extrude_layer(L_gasket_supports, z= bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness + switch_plate_damper_thickness + compressed_gasket_thickness, h=fr4_thickness + keycaps_cutout_height- decoration_cutout_depth - compressed_gasket_thickness, delta = 0.2);
+    extrude_layer(L_pcb_outline, z= bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness + switch_plate_damper_thickness + compressed_gasket_thickness, h=fr4_thickness + keycaps_cutout_height- decoration_cutout_depth - compressed_gasket_thickness, delta = 0.2);
   }
 }
 
@@ -215,14 +211,11 @@ module lower_gasket_supports_rim() {
  
 }
 
-// -------------------- Module: pcb_stack --------------------
-module pcb_stack() { extrude_layer(L_pcb_outline, z=bottom_thickness, h= bottom_gap + pcb_and_plate_thickness, delta=clear_pcb_mm); }
-
 // -------------------- Module: keycaps_cutout --------------------
-module keycaps_cutout() { extrude_layer(L_keycaps_outline, h=Z_TOP_CASE, delta=2 * keycaps_gap); }
+module keycaps_cutout() { extrude_layer(L_keycaps_outline, h=z_top_case_top, delta=2 * keycaps_gap); }
 
 // -------------------- Module: controller_cutout --------------------
-module controller_cutout() { extrude_layer(L_controller_cutout, h=Z_TOP_CASE - controller_cover_thickness, delta=clear_usb_mm); }
+module controller_cutout() { extrude_layer(L_controller_cutout, h=z_top_case_top - controller_cover_thickness, delta=clear_usb_mm); }
 
 
 
@@ -287,20 +280,20 @@ module usb_c_cutout_position() {
 
 // -------------------- Module: top_plate_decor_cutout --------------------
 module top_plate_decor_cutout() {
-    extrude_layer(L_outer_shape_decor, z=Z_TOP_CASE-decoration_cutout_depth, h=decoration_cutout_depth);  
+    extrude_layer(L_outer_shape_decor, z=z_top_case_top-decoration_cutout_depth, h=decoration_cutout_depth);  
 }
 
 // -------------------- Module: top_plate_decor --------------------
 module top_plate_decor() {
     difference(){
-        extrude_layer(L_outer_shape_decor, z=Z_TOP_CASE-decoration_cutout_depth , h=decoration_cutout_depth, delta=-decoration_line_width); 
+        extrude_layer(L_outer_shape_decor, z=z_top_case_top-decoration_cutout_depth , h=decoration_cutout_depth, delta=-decoration_line_width); 
         keycaps_cutout();
     }
 }
 
 // -------------------- Module: top_plate_decor_lines_cutout --------------------
 module top_plate_decor_lines_cutout() {
-    extrude_layer(L_decor_lines, z=Z_TOP_CASE-decoration_cutout_depth , h=decoration_cutout_depth);  
+    extrude_layer(L_decor_lines, z=z_top_case_top-decoration_cutout_depth , h=decoration_cutout_depth);  
 }
 
 
@@ -351,13 +344,13 @@ module bottom_case() {
 module switchplate_foam() {
   difference() {
     union() {
-      extrude_layer(L_gasket_supports, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness);
+      extrude_layer(L_gasket_supports, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness);
       difference() {
-        extrude_layer(L_switchplate_outline, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness);
-        extrude_layer(L_switches, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness, delta=0.3);
+        extrude_layer(L_switchplate_outline, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness);
+        extrude_layer(L_switches, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness, delta=0.3);
       }
     }
-  extrude_layer(L_gasket_supports_rim, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switchplate_thickness, delta= 0.5);
+  extrude_layer(L_gasket_supports_rim, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness, delta= 0.5);
   }
 }
 
@@ -448,6 +441,7 @@ module tent() {
 // ------------------------------ Build Select ---------------------------------
 // -----------------------------------------------------------------------------
 PART = "exploded";
+EXPLODE = 10;
 
 // -------------------- Module: build --------------------
 module build() {
