@@ -21,13 +21,13 @@ jobs:
 
       - name: Install OpenSCAD
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openscad
+          sudo snap install openscad-nightly
 
       - name: Render ${{ matrix.part }}
         run: |
           mkdir -p build
-          openscad --render \
+          OPENSCAD_BIN="$(command -v openscad-nightly || command -v openscad)"
+          "$OPENSCAD_BIN" --render  \
             -o build/${{ matrix.part }}.stl \
             -D 'PART="${{ matrix.part }}"' \
             case/case.scad
