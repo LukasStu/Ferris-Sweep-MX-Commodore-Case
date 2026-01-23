@@ -34,7 +34,7 @@ rim_clear = 0.2;
 // PCB + plate
 kailh_sockets_thickness = 2;
 fr4_thickness = 1.6;
-switch_plate_damper_thickness = 3.3;
+switch_plate_foam_thickness = 3.3;
 
 // gasket
 gasket_thickness = 2;
@@ -46,6 +46,7 @@ gasket_rim = 1.5;
 switch_protruction = 1;
 slider_immersion_depth = 0.5;
 slider_total_height = switch_protruction + bottom_thickness + bottom_gap + kailh_sockets_thickness + fr4_thickness - 0.5;
+MSK_thickness = 2.0;
 
 // USB
 w_shell = 8.94;
@@ -64,8 +65,12 @@ screw_diameter = 2.5;
 thread_length = 4;
 head_diameter = 4.5;
 thread_intrusion = 2;
-screw_support_diameter = 6;
+screw_support_diameter = 7;
 screw_marker_diameter = 1;
+
+// Rubber feet
+insert_height = 5;
+foot_height = 1.5;
 
 // Clearances
 clear_pcb_mm = 1.0;
@@ -80,7 +85,7 @@ z_bottom_gap = bottom_thickness;
 z_kailh_sockets = z_bottom_gap + bottom_gap;
 z_pcb = z_kailh_sockets + kailh_sockets_thickness;
 z_switchplate_foam = z_pcb + fr4_thickness;
-z_switchplate = z_switchplate_foam + switch_plate_damper_thickness;
+z_switchplate = z_switchplate_foam + switch_plate_foam_thickness;
 z_keycaps_cutout = z_switchplate + fr4_thickness;
 
 // bases and tops
@@ -201,13 +206,13 @@ module power_switch_slider() {
   difference() {
     extrude_layer(L_pwr_body, z=-switch_protruction, h=slider_total_height);
     extrude_layer(L_pwr_knob_cutout, z= bottom_thickness, h=slider_total_height - bottom_thickness);
-    translate([0, 0, -switch_protruction]) linear_extrude(height=0.2) import(file=DXF, layer=L_pwr_on_label);
+    extrude_layer(L_pwr_on_label, z= -switch_protruction, h=0.4);
   }
-  extrude_layer(L_pwr_body_overhang, z= bottom_thickness-slider_immersion_depth, h=bottom_gap/2);
+  extrude_layer(L_pwr_body_overhang, z= bottom_thickness-slider_immersion_depth, h=slider_immersion_depth+bottom_gap+fr4_thickness-MSK_thickness);
 }
 
 module power_body_support() {
-  extrude_layer(L_pwr_body_support, z= bottom_thickness, h=slider_total_height);
+  extrude_layer(L_pwr_body_support, z= bottom_thickness, h=slider_total_height-bottom_thickness-bottom_gap);
 }
 
 module reset_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_thickness, delta=delta); }
@@ -319,15 +324,30 @@ module bottom_case() {
 module switchplate_foam() {
   difference() {
     union() {
-      extrude_layer(L_gasket_supports, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness);
+      extrude_layer(L_gasket_supports, z=z_switchplate_foam, h=switch_plate_foam_thickness);
       difference() {
-        extrude_layer(L_switchplate_outline, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness);
-        extrude_layer(L_switches, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness, delta=0.3);
+        extrude_layer(L_switchplate_outline, z=z_switchplate_foam, h=switch_plate_foam_thickness);
+        extrude_layer(L_switches, z=z_switchplate_foam, h=switch_plate_foam_thickness, delta=0.3);
       }
     }
-  extrude_layer(L_gasket_supports_rim, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_damper_thickness, delta= 0.5);
+  extrude_layer(L_gasket_supports_rim, z=bottom_thickness + kailh_sockets_thickness + bottom_gap + fr4_thickness, h=switch_plate_foam_thickness, delta= 0.5);
   }
 }
+
+// -------------------- Module: rubber feet --------------------
+module rubber_feet() {
+  hollow_delta = (heat_sink_insert_diameter - screw_marker_diameter) / 2;
+  insert_delta = (head_diameter - screw_marker_diameter) / 2;
+  foot_delta = (head_diameter + 2 - screw_marker_diameter) / 2;
+  difference() {
+    union() {
+      extrude_layer(L_screw_markers, h=insert_height, delta=insert_delta);
+      extrude_layer(L_screw_markers, z=-foot_height, h=foot_height, delta=foot_delta);
+        }
+    extrude_layer(L_screw_markers, z=-foot_height, h=foot_height+insert_height, delta=hollow_delta);
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // --------------------------- Optional Tent Support ---------------------------
@@ -426,6 +446,7 @@ module build() {
     translate([0, 0, -2 * EXPLODE]) power_switch_slider();
     translate([0, 0, -2 * EXPLODE]) reset_switch_button();
     translate([0, 0, -3 * EXPLODE]) bottom_case();
+    translate([0, 0, -4 * EXPLODE]) rubber_feet();
   } else if (PART == "top_case")
     top_case();
   else if (PART == "switch_plate_foam")
@@ -438,6 +459,8 @@ module build() {
     bottom_case();
   else if (PART == "tent")
     tent();
+  else if (PART == "rubber_feet")
+    rubber_feet();
   else
     echo(str("Unknown PART: ", PART));
 }
