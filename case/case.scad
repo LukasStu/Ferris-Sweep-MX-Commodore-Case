@@ -101,7 +101,7 @@ total_height_top_case = keycaps_cutout_height;
 DXF = "ferris_sweep_bling_mx.dxf";
 
 L_pcb_outline = "pcb_outline";
-L_outer_shape = "outer_shape";
+L_outer_shape = "outer_shape_2";
 L_outer_shape_decor = "outer_shape_decor";
 L_decor_lines = "decor_lines";
 L_keycaps_outline = "keycaps_outline";
@@ -292,13 +292,13 @@ module top_case() {
   }
     power_switch_overhang_cutout(delta=clear_switch_mm);
     keycaps_cutout();
-    top_plate_decor_cutout();
-    top_plate_decor_lines_cutout();
+    //top_plate_decor_cutout();
+    //top_plate_decor_lines_cutout();
     controller_cutout();
     usb_c_cutout_position();
     case_rim(rim_clear);  
   }
-    top_plate_decor();
+    //top_plate_decor();
 }
 
 // -------------------- Module: bottom_case --------------------
