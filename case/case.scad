@@ -57,6 +57,10 @@ Z_USB = h_shell / 2 + bottom_gap + kailh_sockets_thickness + fr4_thickness+ pcb_
 usb_main_offset = [139.9, -76, Z_USB];
 usb_tunnel_offset = [139.9, -28, Z_USB];
 usb_tunnel_len_mm = 50;
+usb_plug_thickness = 8;
+usb_plug_thickness_clearance = 2;
+usb_plug_support_wall_thickness = 1.5;
+
 
 // Screw positions & sizes
 heat_sink_insert_diameter = 2.7;
@@ -120,6 +124,7 @@ L_switchplate_outline = "switchplate_outline";
 L_gasket_supports = "gasket_supports";
 L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
+L_usb_plug_cutout = "usb_plug_cutout";
 
 
 // -----------------------------------------------------------------------------
@@ -218,7 +223,7 @@ module power_switch_slider() {
 }
 
 module power_body_support() {
-  extrude_layer(L_pwr_body_support, z= bottom_thickness, h=slider_total_height-bottom_thickness-bottom_gap);
+  extrude_layer(L_pwr_body_support, z= bottom_thickness, h=2);
 }
 
 module reset_cutout(delta = 0) { extrude_layer(L_reset, h=bottom_thickness, delta=delta); }
@@ -240,6 +245,11 @@ module usb_c_cutout_position() {
   translate(usb_tunnel_offset) rotate([90, 0, 0]) linear_extrude(height=usb_tunnel_len_mm) usb_c_cutout_2d(1.1, 1.65);
 }
 
+module usb_plug_cutout() {
+  extrude_layer(L_usb_plug_cutout, z=z_top_case_top-top_case_thickness, h=top_case_thickness);
+  extrude_layer(L_usb_plug_cutout, z=Z_USB-usb_plug_thickness/2-usb_plug_thickness_clearance, h=usb_plug_thickness+usb_plug_thickness_clearance);
+ }
+module usb_plug_cutout_support() {extrude_layer(L_usb_plug_cutout, z=Z_USB-usb_plug_thickness/2-usb_plug_thickness_clearance-usb_plug_support_wall_thickness, h=usb_plug_thickness+usb_plug_thickness_clearance+usb_plug_support_wall_thickness, delta=usb_plug_support_wall_thickness); }
 // -----------------------------------------------------------------------------
 // ------------------------------ Threads and screws ----------------------------
 // -----------------------------------------------------------------------------
@@ -295,14 +305,16 @@ module top_case() {
     outer_shape_top();
     top_insert_support();
     upper_gasket_taps();
+    usb_plug_cutout_support();
   }
     power_switch_overhang_cutout(delta=clear_switch_mm);
     keycaps_cutout();
     top_plate_decor_cutout();
     top_plate_decor_lines_cutout();
     controller_cutout();
-    usb_c_cutout_position();
+    //usb_c_cutout_position();
     case_rim(rim_clear);  
+    usb_plug_cutout();
   }
 }
 
@@ -321,7 +333,7 @@ module bottom_case() {
     bottom_screw_holes();
     pwr_switch_slider_cutout(delta=clear_switch_mm);
     power_switch_overhang_cutout(delta=clear_switch_mm);
-    usb_c_cutout_position();
+    //usb_c_cutout_position();
   }
 }
 
