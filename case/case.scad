@@ -60,6 +60,8 @@ usb_tunnel_len_mm = 50;
 usb_plug_thickness = 8;
 usb_plug_thickness_clearance = 2;
 usb_plug_support_wall_thickness = 1.5;
+usb_plug_insert_clearance = 0.5;
+magnet_clearance = 0.1;
 
 
 // Screw positions & sizes
@@ -125,6 +127,8 @@ L_gasket_supports = "gasket_supports";
 L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
 L_usb_plug_cutout = "usb_plug_cutout";
+L_usb_plug_magnets = "usb_plug_magnets";
+L_usb_plug_decor = "usb_plug_decor";
 
 
 // -----------------------------------------------------------------------------
@@ -245,13 +249,27 @@ module usb_c_cutout_position() {
   translate(usb_tunnel_offset) rotate([90, 0, 0]) linear_extrude(height=usb_tunnel_len_mm) usb_c_cutout_2d(1.1, 1.65);
 }
 
-module usb_plug_cutout() {
-  extrude_layer(L_usb_plug_cutout, z=z_top_case_top-top_case_thickness, h=top_case_thickness);
-  extrude_layer(L_usb_plug_cutout, z=Z_USB-usb_plug_thickness/2-usb_plug_thickness_clearance, h=usb_plug_thickness+usb_plug_thickness_clearance);
+module usb_plug_cutout(delta = 0) {
+  usb_plug_lower_z = Z_USB - usb_plug_thickness / 2 - usb_plug_thickness_clearance;
+  usb_plug_cutout_height = z_top_case_top - usb_plug_lower_z;
+  extrude_layer(L_usb_plug_cutout, z=usb_plug_lower_z, h=usb_plug_cutout_height, delta=delta);
  }
-module usb_plug_cutout_support() {extrude_layer(L_usb_plug_cutout, z=Z_USB-usb_plug_thickness/2-usb_plug_thickness_clearance-usb_plug_support_wall_thickness, h=usb_plug_thickness+usb_plug_thickness_clearance+usb_plug_support_wall_thickness, delta=usb_plug_support_wall_thickness); }
+module usb_plug_cutout_support() {
+  usb_plug_lower_z = Z_USB - usb_plug_thickness / 2 - usb_plug_thickness_clearance;
+  usb_plug_cutout_height = z_top_case_top - usb_plug_lower_z;
+  extrude_layer(L_usb_plug_cutout, z=usb_plug_lower_z-usb_plug_support_wall_thickness, h=usb_plug_cutout_height+usb_plug_support_wall_thickness-decoration_cutout_depth-0.01, delta=usb_plug_support_wall_thickness);
+}
+
+module usb_plug_magnets_cutout() {
+  magnet_diameter = 4;
+  magnet_height = 1;
+  magnet_delta = (magnet_diameter - screw_marker_diameter) / 2;
+  extrude_layer(L_usb_plug_magnets, z=Z_USB - usb_plug_thickness / 2 - usb_plug_thickness_clearance - magnet_height- magnet_clearance, h=2*magnet_height+2*magnet_clearance, delta=magnet_delta+magnet_clearance);
+}
+
+
 // -----------------------------------------------------------------------------
-// ------------------------------ Threads and screws ----------------------------
+// ------------------------------ Threads and screws -----------------------------
 // -----------------------------------------------------------------------------
 
 module supports_pcb_clearance() {
@@ -294,6 +312,10 @@ module top_plate_decor_lines_cutout() {
     extrude_layer(L_decor_lines, z=z_top_case_top-decoration_cutout_depth , h=decoration_cutout_depth);  
 }
 
+module usb_plug_decor_cutout() {
+    extrude_layer(L_usb_plug_decor,z_top_case_top-decoration_cutout_depth , h=decoration_cutout_depth);
+}
+
 // -----------------------------------------------------------------------------
 // ------------------------------ Assemblies -----------------------------------
 // -----------------------------------------------------------------------------
@@ -315,6 +337,7 @@ module top_case() {
     //usb_c_cutout_position();
     case_rim(rim_clear);  
     usb_plug_cutout();
+    usb_plug_magnets_cutout();
   }
 }
 
@@ -362,6 +385,15 @@ module rubber_feet() {
       extrude_layer(L_screw_markers, z=-foot_height, h=foot_height, delta=foot_delta);
         }
     extrude_layer(L_screw_markers, z=-foot_height, h=foot_height+insert_height, delta=hollow_delta);
+  }
+}
+
+// -------------------- Module: USB plug cutout support --------------------
+module usb_plug_cover() {
+  difference() {
+    usb_plug_cutout(-usb_plug_insert_clearance);
+    usb_plug_magnets_cutout();
+    usb_plug_decor_cutout();
   }
 }
 
@@ -458,6 +490,7 @@ EXPLODE = 10;
 // -------------------- Module: build --------------------
 module build() {
   if (PART == "exploded") {
+    translate([0, 0, 3 * EXPLODE]) usb_plug_cover();
     translate([0, 0, EXPLODE]) top_case();
     translate([0, 0, -EXPLODE]) switchplate_foam();
     translate([0, 0, -2 * EXPLODE]) power_switch_slider();
@@ -478,6 +511,8 @@ module build() {
     tent();
   else if (PART == "rubber_feet")
     rubber_feet();
+  else if (PART == "usb_plug_cover")
+    usb_plug_cover();
   else
     echo(str("Unknown PART: ", PART));
 }
