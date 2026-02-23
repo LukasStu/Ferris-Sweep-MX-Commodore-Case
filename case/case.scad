@@ -19,7 +19,7 @@ case_wall_thickness = 3;
 controller_cover_thickness = 1;
 keycaps_gap = 0.5;
 keycaps_cutout_height = 8.5;
-decoration_cutout_depth = 0.5;
+decoration_cutout_depth = 1.0;
 
 // bottom case
 bottom_thickness = 2;
