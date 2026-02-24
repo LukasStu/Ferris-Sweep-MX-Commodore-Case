@@ -128,7 +128,6 @@ L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
 L_usb_plug_cutout = "usb_plug_cutout";
 L_usb_plug_magnets = "usb_plug_magnets";
-L_usb_plug_decor = "usb_plug_decor";
 
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
@@ -447,7 +446,7 @@ module usb_plug_cover() {
   difference() {
     usb_plug_cutout(-usb_plug_insert_clearance);
     usb_plug_magnets_cutout();
-    usb_plug_decor_cutout();
+    top_plate_decor_cutout();
   }
 }
 
