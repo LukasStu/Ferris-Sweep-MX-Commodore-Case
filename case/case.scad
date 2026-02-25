@@ -42,10 +42,10 @@ compressed_gasket_thickness = gasket_thickness * (1 - compression);
 gasket_rim = 1.5;
 
 // switches
-switch_protruction = 1;
+switch_protrusion = 1;
 slider_immersion_depth = 0.5;
 slider_total_height =
-    switch_protruction + bottom_thickness + bottom_gap + kailh_sockets_thickness + fr4_thickness - 0.5;
+  switch_protrusion + bottom_thickness + bottom_gap + kailh_sockets_thickness + fr4_thickness - 0.5;
 MSK_thickness = 1.4;
 B3U_thickness = 1.6;
 
@@ -127,6 +127,7 @@ L_gasket_supports = "gasket_supports";
 L_gasket_supports_rim = "gasket_supports_rim";
 L_screw_markers = "screw_markers";
 L_usb_plug_cutout = "usb_plug_cutout";
+L_usb_plug_decor = "usb_plug_decor";
 L_usb_plug_magnets = "usb_plug_magnets";
 
 // -----------------------------------------------------------------------------
@@ -244,7 +245,7 @@ module power_switch_overhang_cutout(delta = 0) {
 module power_switch_slider() {
   difference() {
     union() {
-      extrude_layer(L_pwr_circ, z = -switch_protruction, h = bottom_thickness + switch_protruction);
+      extrude_layer(L_pwr_circ, z = -switch_protrusion, h = bottom_thickness + switch_protrusion);
       extrude_layer(L_pwr_body_overhang, z = z_bottom_gap - slider_immersion_depth, h = slider_immersion_depth);
       extrude_layer(L_pwr_body_overhang, z = z_bottom_gap,
                     h = bottom_gap + kailh_sockets_thickness + fr4_thickness - MSK_thickness -
@@ -254,7 +255,7 @@ module power_switch_slider() {
     }
     extrude_layer(L_pwr_knob_cutout, z = z_switchplate_foam - MSK_thickness - compressed_gasket_thickness,
                   h = MSK_thickness + compressed_gasket_thickness + 1);
-    extrude_layer(L_pwr_on_label, z = -switch_protruction, h = 0.4);
+    extrude_layer(L_pwr_on_label, z = -switch_protrusion, h = 0.4);
   }
 }
 
@@ -267,7 +268,7 @@ module reset_cutout(delta = 0) {
 }
 
 module reset_switch_button() {
-  extrude_layer(L_reset, z = -switch_protruction, h = bottom_thickness + switch_protruction);
+  extrude_layer(L_reset, z = -switch_protrusion, h = bottom_thickness + switch_protrusion);
   extrude_layer(L_reset, z = z_bottom_gap, h = bottom_gap, delta = 1);
 }
 
