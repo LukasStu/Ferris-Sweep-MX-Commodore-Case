@@ -75,9 +75,9 @@ screw_support_diameter = 7;
 screw_marker_diameter = 1;
 
 // Rubber feet
-insert_height = 5;
+insert_height = 3;
 foot_height = 1.5;
-hollow_diameter = head_diameter - 1.0;
+hollow_diameter = head_diameter - 0.9;
 
 // Clearances
 clear_pcb_mm = 1.0;
