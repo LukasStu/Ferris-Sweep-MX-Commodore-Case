@@ -43,7 +43,7 @@ gasket_rim = 1.5;
 
 // switches
 switch_protrusion = 1;
-slider_immersion_depth = 0.5;
+slider_immersion_depth = 0.2;
 slider_total_height =
   switch_protrusion + bottom_thickness + bottom_gap + kailh_sockets_thickness + fr4_thickness - 0.5;
 MSK_thickness = 1.4;
