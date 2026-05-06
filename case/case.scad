@@ -233,10 +233,6 @@ module controller_cutout() {
 // ------------------------------ Buttons, Switches, USB------------------------
 // -----------------------------------------------------------------------------
 
-module pwr_switch_slider_cutout(delta = 0) {
-  extrude_layer(L_pwr_lid_cutout, h = bottom_thickness, delta = delta);
-}
-
 module power_switch_overhang_cutout(delta = 0) {
   extrude_layer(L_pwr_overhang_cutout, z = bottom_thickness - slider_immersion_depth, h = slider_total_height,
                 delta = delta);
@@ -257,10 +253,6 @@ module power_switch_slider() {
                   h = MSK_thickness + compressed_gasket_thickness + 1);
     extrude_layer(L_pwr_on_label, z = -switch_protrusion, h = 0.4);
   }
-}
-
-module power_body_support() {
-  extrude_layer(L_pwr_body_support, z = bottom_thickness, h = 2);
 }
 
 module reset_cutout(delta = 0) {
@@ -401,14 +393,11 @@ module bottom_case() {
       outer_shape_bottom();
       lower_gasket_taps();
       lower_gasket_taps_rims();
-      power_body_support();
       case_rim();
       bottom_screw_support();
     }
     reset_cutout(0.2);
     bottom_screw_holes();
-    pwr_switch_slider_cutout(delta = clear_switch_mm);
-    power_switch_overhang_cutout(delta = clear_switch_mm);
     // usb_c_cutout_position();
   }
 }
