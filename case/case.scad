@@ -113,6 +113,7 @@ L_decor_lines = "decor_lines";
 L_keycaps_outline = "keycaps_outline";
 L_controller_cutout = "controller_cutout";
 L_reset = "reset";
+L_reset_cutout = "reset_cutout";
 L_pwr_lid_cutout = "pwr_lid_cutout";
 L_pwr_body = "pwr_body";
 L_pwr_circ = "pwr_circ";
@@ -256,7 +257,11 @@ module power_switch_slider() {
 }
 
 module reset_cutout(delta = 0) {
-  extrude_layer(L_reset, h = bottom_thickness, delta = delta);
+  extrude_layer(L_reset_cutout, h = bottom_thickness);
+}
+
+module reset_lift() {
+  extrude_layer(L_reset, z = z_bottom_gap, h = bottom_gap);
 }
 
 module reset_switch_button() {
@@ -395,6 +400,7 @@ module bottom_case() {
       lower_gasket_taps_rims();
       case_rim();
       bottom_screw_support();
+      reset_lift();
     }
     reset_cutout(0.2);
     bottom_screw_holes();
