@@ -234,28 +234,6 @@ module controller_cutout() {
 // ------------------------------ Buttons, Switches, USB------------------------
 // -----------------------------------------------------------------------------
 
-module power_switch_overhang_cutout(delta = 0) {
-  extrude_layer(L_pwr_overhang_cutout, z = bottom_thickness - slider_immersion_depth, h = slider_total_height,
-                delta = delta);
-}
-
-module power_switch_slider() {
-  difference() {
-    union() {
-      extrude_layer(L_pwr_circ, z = -switch_protrusion, h = bottom_thickness + switch_protrusion);
-      extrude_layer(L_pwr_body_overhang, z = z_bottom_gap - slider_immersion_depth, h = slider_immersion_depth);
-      extrude_layer(L_pwr_body_overhang, z = z_bottom_gap,
-                    h = bottom_gap + kailh_sockets_thickness + fr4_thickness - MSK_thickness -
-                        compressed_gasket_thickness);
-      extrude_layer(L_pwr_body, z = z_switchplate_foam - MSK_thickness - compressed_gasket_thickness,
-                    h = MSK_thickness + compressed_gasket_thickness + 1);
-    }
-    extrude_layer(L_pwr_knob_cutout, z = z_switchplate_foam - MSK_thickness - compressed_gasket_thickness,
-                  h = MSK_thickness + compressed_gasket_thickness + 1);
-    extrude_layer(L_pwr_on_label, z = -switch_protrusion, h = 0.4);
-  }
-}
-
 module reset_cutout(delta = 0) {
   extrude_layer(L_reset_cutout, h = bottom_thickness);
 }
@@ -379,7 +357,6 @@ module top_case() {
       upper_gasket_taps();
       usb_plug_cutout_support();
     }
-    power_switch_overhang_cutout(delta = clear_switch_mm);
     keycaps_cutout();
     top_plate_decor_cutout();
     top_plate_decor_lines_cutout();
@@ -521,18 +498,12 @@ module build() {
     translate([ 0, 0, 3 * EXPLODE ]) usb_plug_cover();
     translate([ 0, 0, EXPLODE ]) top_case();
     translate([ 0, 0, -EXPLODE ]) switchplate_foam();
-    translate([ 0, 0, -2 * EXPLODE ]) power_switch_slider();
-    translate([ 0, 0, -2 * EXPLODE ]) reset_switch_button();
     translate([ 0, 0, -3 * EXPLODE ]) bottom_case();
     translate([ 0, 0, -4 * EXPLODE ]) rubber_feet();
   } else if (PART == "top_case")
     top_case();
   else if (PART == "switch_plate_foam")
     switchplate_foam();
-  else if (PART == "power_switch_slider")
-    power_switch_slider();
-  else if (PART == "reset_switch_button")
-    reset_switch_button();
   else if (PART == "bottom_case")
     bottom_case();
   else if (PART == "tent")

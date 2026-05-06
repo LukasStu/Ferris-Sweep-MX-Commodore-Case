@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        part: [exploded, top_case, bottom_case, power_switch_slider, reset_switch_button, switch_plate_foam, rubber_feet,tent, usb_plug_cover]
+        part: [exploded, top_case, bottom_case, switch_plate_foam, rubber_feet,tent, usb_plug_cover]
 
     steps:
       - name: Checkout
